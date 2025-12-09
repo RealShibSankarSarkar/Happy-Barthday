@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Birthday + Admin — Single Page</title>
+  <style>
+    :root{--bg:#0f172a;--card:#0b1220;--accent:#ff6b6b;--accent2:#ffd166;--text:#f8fafc}
+    html,body{margin:0;height:100%;font-family:system-ui,-apple-system,Segoe UI,Roboto,'Noto Sans',sans-serif;background:#071325;color:var(--text)}
+    .wrap{max-width:980px;margin:0 auto;padding:20px}
+    .card{background:rgba(255,255,255,0.04);padding:20px;border-radius:14px;box-shadow:0 0 18px rgba(0,0,0,0.3)}
+    input,textarea,button{padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);background:transparent;color:inherit;width:100%;box-sizing:border-box;margin-top:6px}
+    textarea{resize:vertical}
+    button{cursor:pointer}
+    .flex{display:flex;gap:10px}
+    .hidden{display:none}
+    .msg{padding:12px;border-radius:10px;background:rgba(255,255,255,0.06);margin-top:10px}
+    .meta{font-size:12px;color:rgba(255,255,255,0.6)}
+    .footer-link{text-align:center;margin-top:18px;text-decoration:underline;cursor:pointer;color:#ffd166}
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ---------------- Birthday Section ---------------- -->
+  <div id="birthdaySection" class="card">
+    <h2>Happy Birthday</h2>
+    <label>Recipient Name</label>
+    <input id="recName" placeholder="e.g. Riya">
+
+    <label>Your Message / Shayari</label>
+    <textarea id="recMsg" rows="4">Tomar hosh, tomar hasi,
+Ei chotto dine hok sob kotha beshi.
+Happy Birthday,
+Ei prarthona—tomar jibon hok tomar motoi mishti.</textarea>
+
+    <label>Photo URL (optional)</label>
+    <input id="recPhoto" placeholder="Image link here">
+
+    <label>Your Name (sender)</label>
+    <input id="senderName" placeholder="Your name">
+
+    <button id="saveBtn" style="margin-top:15px;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#000;font-weight:700">Save Message</button>
+
+    <p class="footer-link" id="adminOpen">Designed by your friend Shib Sankar Sarkar</p>
+  </div>
+
+
+  <!-- ---------------- Admin Login Section ---------------- -->
+  <div id="adminLogin" class="card hidden">
+    <h2>Admin Login</h2>
+    <label>Email</label>
+    <input id="adminEmail" value="sarkarshibsankor@gmail.com">
+
+    <label>Password</label>
+    <input id="adminPass" type="password" value="JaiHanuman!S">
+
+    <button id="loginBtn" style="margin-top:12px">Login</button>
+
+    <button id="backToBirthday" style="margin-top:10px">⬅ Back</button>
+  </div>
+
+
+  <!-- ---------------- Admin Panel Section ---------------- -->
+  <div id="adminPanel" class="card hidden">
+    <div class="flex" style="justify-content:space-between;align-items:center">
+      <h2>All Messages</h2>
+      <button id="logoutBtn">Logout</button>
+    </div>
+
+    <div id="messagesList"></div>
+  </div>
+
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+<script>
+// Firebase config (You already provided)
+const firebaseConfig = {
+  apiKey: "AIzaSyBZA9tXy6D1nyR_zyWaKiq95F5sbGjWttk",
+  authDomain: "girls-b8e77.firebaseapp.com",
+  projectId: "girls-b8e77",
+  storageBucket: "girls-b8e77.firebasestorage.app",
+  messagingSenderId: "241187517416",
+  appId: "1:241187517416:web:f7547d41aa147d1e52ea5d",
+  measurementId: "G-R3MMN74XW8"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const auth = firebase.auth();
+
+// UI sections
+const birthdaySection = document.getElementById('birthdaySection');
+const adminLogin = document.getElementById('adminLogin');
+const adminPanel = document.getElementById('adminPanel');
+
+// Inputs
+const recName = document.getElementById('recName');
+const recMsg = document.getElementById('recMsg');
+const recPhoto = document.getElementById('recPhoto');
+const senderName = document.getElementById('senderName');
+
+const saveBtn = document.getElementById('saveBtn');
+const adminOpen = document.getElementById('adminOpen');
+const backToBirthday = document.getElementById('backToBirthday');
+
+const adminEmail = document.getElementById('adminEmail');
+const adminPass = document.getElementById('adminPass');
+const loginBtn = document.getElementById('loginBtn');
+const logoutBtn = document.getElementById('logoutBtn');
+const messagesList = document.getElementById('messagesList');
+
+// Switch UI
+function showBirthday(){ birthdaySection.classList.remove('hidden'); adminLogin.classList.add('hidden'); adminPanel.classList.add('hidden'); }
+function showLogin(){ birthdaySection.classList.add('hidden'); adminLogin.classList.remove('hidden'); adminPanel.classList.add('hidden'); }
+function showPanel(){ birthdaySection.classList.add('hidden'); adminLogin.classList.add('hidden'); adminPanel.classList.remove('hidden'); }
+
+adminOpen.onclick = ()=> showLogin();
+backToBirthday.onclick = ()=> showBirthday();
+
+// Save to Firestore
+saveBtn.onclick = async ()=>{
+  const r = recName.value.trim();
+  const m = recMsg.value.trim();
+  const p = recPhoto.value.trim();
+  const s = senderName.value.trim();
+
+  if(!m){ alert("Write a message"); return }
+
+  saveBtn.disabled=true; saveBtn.innerText="Saving...";
+
+  try{
+    await db.collection('messages').add({
+      recipient:r || "Friend",
+      text:m,
+      photoURL:p || "",
+      sender:s || "Anonymous",
+      time: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    saveBtn.innerText="Saved ✓";
+    setTimeout(()=>{saveBtn.disabled=false; saveBtn.innerText="Save Message"},1500);
+  } catch(e){ alert(e.message); saveBtn.disabled=false; saveBtn.innerText="Save Message" }
+};
+
+// Admin Login
+loginBtn.onclick = async ()=>{
+  loginBtn.disabled=true; loginBtn.innerText="Logging in...";
+  try{
+    await auth.signInWithEmailAndPassword(adminEmail.value.trim(), adminPass.value);
+    loginBtn.disabled=false; loginBtn.innerText="Login";
+  }catch(e){ alert(e.message); loginBtn.disabled=false; loginBtn.innerText="Login" }
+};
+
+logoutBtn.onclick = ()=> auth.signOut();
+
+// Auth listener
+let unsub = null;
+auth.onAuthStateChanged(user=>{
+  if(user){
+    showPanel();
+
+    // Realtime listener
+    unsub = db.collection('messages').orderBy('time','desc').onSnapshot(snap=>{
+      messagesList.innerHTML="";
+      snap.forEach(doc=>{
+        const d = doc.data();
+        const t = d.time ? d.time.toDate().toLocaleString() : "—";
+        messagesList.innerHTML += `
+          <div class='msg'>
+            <div style='font-weight:bold'>${escape(d.sender)} → <span style="color:#ffd166">${escape(d.recipient)}</span></div>
+            <div class='meta'>${t}</div>
+            <div style='margin-top:8px;white-space:pre-wrap'>${escape(d.text)}</div>
+            ${d.photoURL ? `<img src='${escape(d.photoURL)}' style='margin-top:8px;max-width:200px;border-radius:8px'>` : ''}
+          </div>`;
+      });
+    });
+
+  }else{
+    if(unsub) unsub();
+    showLogin();
+  }
+});
+
+function escape(s){ return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;") }
+</script>
+</body>
+</html>
