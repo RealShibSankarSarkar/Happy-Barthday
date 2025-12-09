@@ -3,199 +3,217 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Happy Birthday Template — Light & Cute</title>
+  <title>Happy Birthday Rimjhim — Premium 🎉</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+
   <style>
-    /* Light & Cute Palette */
     :root{
-      --bg:hsl(30, 100%, 98%); /* Very Light Cream/Peach */
-      --card:white; 
-      --accent:hsl(330, 80%, 65%); /* Soft Pink */
-      --accent2:hsl(40, 100%, 70%); /* Soft Peach/Gold */
-      --text:hsl(240, 10%, 20%); /* Dark Text */
-      --shadow-light: rgba(0,0,0,0.05);
+      --bg:hsl(30, 100%, 98%);
+      --card:white;
+      --accent:hsl(330,80%,65%);
+      --accent2:hsl(280,80%,70%);
+      --text:hsl(240,10%,18%);
     }
-    html,body{
-        margin:0;
-        height:100%;
-        font-family: 'Quicksand', sans-serif; /* Cute & Modern Font */
-        background:var(--bg);
-        color:var(--text);
-        padding-bottom: 40px;
-        background-image: radial-gradient(circle at top right, rgba(255,112,166,0.1) 0%, transparent 40%),
-                          radial-gradient(circle at bottom left, rgba(255,209,102,0.1) 0%, transparent 40%);
-        background-attachment: fixed;
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:'Quicksand',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
+    .wrap{max-width:1100px;margin:20px auto;padding:20px}
+    .card{background:var(--card);border-radius:18px;padding:22px;box-shadow:0 12px 30px rgba(0,0,0,0.06);border:1px solid rgba(0,0,0,0.04);margin-bottom:18px}
+    .header{display:flex;align-items:center;gap:20px}
+    .title{
+      font-family:'Pacifico',cursive;
+      font-size:3rem;
+      margin:0;
+      color:var(--accent);
+      position:relative;
+      padding-right:12px;
+      animation:neon 3s infinite;
+      text-shadow: 0 0 6px rgba(255,112,166,0.8);
     }
-    .wrap{max-width:980px;margin:0 auto;padding:20px}
-    .card{
-        background:var(--card);
-        padding:30px;
-        border-radius:24px;
-        box-shadow:0 15px 35px var(--shadow-light); /* Soft Shadow */
-        border: 1px solid rgba(0,0,0,0.05);
-        animation: fadeIn 0.8s ease-out;
+    @keyframes neon{
+      0%{text-shadow:0 0 6px rgba(255,112,166,0.6)}
+      50%{text-shadow:0 0 28px rgba(255,112,166,0.9)}
+      100%{text-shadow:0 0 6px rgba(255,112,166,0.6)}
     }
-    label{display:block; margin-top:15px; font-weight:700; color:var(--text); font-size: 0.95rem;}
-    input,textarea,button{
-        padding:15px;
-        border-radius:12px;
-        border:1px solid rgba(0,0,0,0.15);
-        background:rgba(255,255,255,0.7); /* Light Input Background */
-        color:var(--text);
-        width:100%;
-        box-sizing:border-box;
-        margin-top:8px;
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Smooth Springy Transition */
-    }
-    input:focus, textarea:focus {
-        border-color: var(--accent);
-        box-shadow: 0 0 10px rgba(255,112,166,0.3);
-        background: white;
-        outline: none;
-    }
-    textarea{resize:vertical; min-height: 120px;}
-    button{
-        cursor:pointer;
-        font-weight: 700;
-        letter-spacing: 0.5px;
-    }
-    button:hover{filter:brightness(1.05); transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.2);}
-    button:active{transform: translateY(-1px); filter:brightness(0.95);}
+    .subtitle{font-size:1.05rem;color:var(--text);margin:0 0 0 2px}
+    /* layout */
+    .top-row{display:flex;gap:20px;flex-wrap:wrap}
+    .left{flex:0 1 360px}
+    .right{flex:1 1 560px;min-width:280px}
 
-    .flex{display:flex;gap:15px}
-    .hidden{display:none}
-    .msg{
-        padding:20px;
-        border-radius:18px;
-        background:var(--bg); /* Lighter background for messages */
-        margin-top:15px;
-        border-left: 6px solid var(--accent);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        transition: all 0.3s ease;
+    /* hero image & glow */
+    .hero-wrap{text-align:center}
+    .hero{
+      width:240px;height:240px;border-radius:50%;object-fit:cover;border:6px solid var(--accent2);
+      box-shadow:0 0 50px rgba(255,156,112,0.35), 0 0 18px rgba(255,255,255,0.7) inset;
+      transition:transform .35s ease, box-shadow .35s ease;
+      animation:pulse 4s infinite;
     }
-    .msg:hover{
-        transform: scale(1.01);
-        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    }
-    .meta{font-size:12px;color:hsl(240, 10%, 40%); margin-top: 5px;}
-    .footer-link{
-        text-align:center;
-        margin-top:30px;
-        font-size: 14px;
-        color:var(--text);
-        cursor:pointer;
-        text-decoration: none;
-        transition: color 0.2s;
-        padding: 10px;
-    }
-    .footer-link:hover{text-decoration: underline; color: var(--accent);}
-
-    /* Custom Styles for Birthday Section */
-    .birthday-header{
-      text-align: center;
-      margin-bottom: 25px;
-    }
-    .birthday-header h2{
-      font-family: 'Pacifico', cursive;
-      font-size: 3.5rem;
-      color: var(--accent);
-      text-shadow: 2px 2px 0 var(--accent2), 0 0 20px rgba(255, 112, 166, 0.5);
-      margin-bottom: 10px;
-    }
-    .hero-img-container{
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    .hero-img{
-      max-width: 250px;
-      height: 250px;
-      border-radius: 50%;
-      border: 6px solid var(--accent2);
-      box-shadow: 0 0 40px rgba(255, 156, 112, 0.4), 0 0 15px rgba(255,255,255,0.8) inset;
-      object-fit: cover;
-      transition: all 0.5s ease;
+    @keyframes pulse{
+      0%{transform:scale(1)}
+      50%{transform:scale(1.04)}
+      100%{transform:scale(1)}
     }
 
-    /* Keyframes */
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
+    /* eyes section */
+    .eyes-grid{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:14px}
+    .eye-card{width:140px;background:linear-gradient(180deg, #fff, #fff);border-radius:12px;padding:8px;text-align:center;
+      box-shadow:0 8px 20px rgba(0,0,0,0.06);border:1px solid rgba(0,0,0,0.04)}
+    .eye-img{width:120px;height:80px;object-fit:cover;border-radius:8px;display:block;margin:0 auto}
+
+    /* shayari box */
+    .shayari{background:linear-gradient(180deg, #fff, #fff);padding:16px;border-radius:12px;margin-bottom:12px;line-height:1.7;border-left:6px solid var(--accent);box-shadow:0 8px 20px rgba(0,0,0,0.04)}
+
+    /* form */
+    label{display:block;margin-top:12px;font-weight:600}
+    input,textarea,select{
+      width:100%;padding:12px;border-radius:10px;border:1px solid rgba(0,0,0,0.12);margin-top:8px;font-size:1rem;background:rgba(255,255,255,0.95)
+    }
+    textarea{min-height:96px;resize:vertical}
+    .row{display:flex;gap:12px}
+    .row .col{flex:1}
+
+    .send-btn{margin-top:14px;padding:12px 18px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;font-weight:700;cursor:pointer;font-size:1rem;box-shadow:0 10px 24px rgba(255,112,166,0.12);transition:transform .18s}
+    .send-btn:active{transform:translateY(2px)}
+
+    /* wishes feed */
+    .wishes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:16px}
+    .wish-card{background:linear-gradient(180deg,#fff,#fff);padding:14px;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,0.06);border:1px solid rgba(0,0,0,0.04)}
+    .wish-meta{font-size:12px;color:gray;margin-bottom:8px}
+    .wish-photo{width:100%;max-height:160px;object-fit:cover;border-radius:8px;margin-top:8px;border:1px solid rgba(0,0,0,0.05)}
+
+    /* floating hearts */
+    .hearts{position:fixed;left:0;right:0;top:0;bottom:0;pointer-events:none;overflow:hidden;z-index:5}
+    .heart{position:absolute;width:18px;height:18px;background:linear-gradient(45deg,#ff8ab8,#ffd47a);transform:rotate(45deg);border-radius:3px;opacity:0.9}
+    .heart:before,.heart:after{content:"";position:absolute;background:inherit;border-radius:50%}
+    .heart:before{width:18px;height:18px;top:-9px;left:0}
+    .heart:after{width:18px;height:18px;left:-9px;top:0}
+
+    /* confetti canvas on top layer */
+    #confetti{position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:6}
+
+    /* music/unmute button */
+    .music-control{position:fixed;right:18px;bottom:18px;z-index:9;background:white;padding:10px;border-radius:999px;box-shadow:0 10px 30px rgba(0,0,0,0.12);display:flex;gap:8px;align-items:center}
+
+    @media(max-width:720px){
+      .title{font-size:2rem}
+      .top-row{flex-direction:column}
+      .left,.right{flex:1 1 auto}
+      .hero{width:200px;height:200px}
     }
   </style>
 </head>
 <body>
+
+<!-- floating hearts container -->
+<div class="hearts" id="hearts"></div>
+
+<!-- confetti canvas -->
+<canvas id="confetti"></canvas>
+
 <div class="wrap">
 
-  <!-- ---------------- Birthday Section ---------------- -->
-  <div id="birthdaySection" class="card">
-    <div class="birthday-header">
-      <h2>Happy Birthday!</h2>
-      <p style="color: var(--text); font-size: 1.2rem;">Send your sweet wish to the Birthday Girl! 🎂</p>
+  <div class="card header">
+    <div>
+      <h1 class="title">Happy Birthday, Rimjhim</h1>
+      <p class="subtitle">আজকের দিনটা তোমার মতোই রঙিন — হাসি, ভালোলাগা ও রিমঝিম আনন্দে ভরপুর।</p>
     </div>
-
-    <!-- Prominent Image of the Birthday Girl (Placeholder) -->
-    <div class="hero-img-container">
-      <img id="displayPhoto" class="hero-img" src="PLACEHOLDER_BIRTHDAY_GIRL_MAIN_IMAGE_URL" alt="Birthday Girl's Picture">
-    </div>
-
-    <label for="recName">Recipient Name</label>
-    <input id="recName" value="Birthday Girl" placeholder="e.g. Riya">
-
-    <label for="recMsg">Your Message / Shayari</label>
-    <textarea id="recMsg" rows="4">তোমার হসি, তোমার হর্ষ,
-আজকের দিন হোক তোমার শ্রেষ্ঠ বর্ষ।
-Happy Birthday!
-এই কামনা—তোমার জীবন হোক তোমার মতোন মিষ্টি ও সুন্দর।</textarea>
-
-    <label for="recPhoto">Photo URL (optional) - The image will be displayed with your personal wish.</label>
-    <input id="recPhoto" value="" placeholder="Paste your image link here">
-
-    <label for="senderName">Your Name (sender)</label>
-    <input id="senderName" placeholder="Your name">
-
-    <button id="saveBtn" style="background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;font-size: 1.2rem;padding: 18px;border:none;">Send Sweet Wish! 💖</button>
   </div>
 
+  <div class="top-row">
+    <div class="left card">
+      <div class="hero-wrap">
+        <img id="displayPhoto" class="hero" alt="Rimjhim" 
+             src="https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/Rimjhim.png?raw=true">
+      </div>
 
-  <!-- ---------------- Admin Login Section ---------------- -->
-  <div id="adminLogin" class="card hidden">
-    <h2>Admin Login</h2>
-    <label for="adminEmail">Email</label>
-    <input id="adminEmail" value="sarkarshibsankor@gmail.com">
+      <!-- eyes section -->
+      <div style="margin-top:14px;text-align:center">
+        <h3 style="margin:0 0 8px 0;color:var(--accent);font-weight:700">Lovely Eyes</h3>
+        <div class="eyes-grid" id="eyesGrid">
+          <!-- eye cards injected by JS -->
+        </div>
+      </div>
 
-    <label for="adminPass">Password</label>
-    <input id="adminPass" type="password" value="JaiHanuman!S">
+      <!-- small shayari -->
+      <div class="shayari" style="margin-top:18px">
+        <strong style="display:block;margin-bottom:8px;color:var(--accent)">A special wish for you</strong>
+        <div style="white-space:pre-wrap">
+          তোমার চোখে স্বপ্ন, তোমার হাসিতে আলো —  
+          আজকের দিন হোক শুধু তোমার খুশির পালা।
+        </div>
+      </div>
 
-    <button id="loginBtn" style="margin-top:20px;background-color: var(--accent2); color: var(--text); border:none;">Login</button>
-
-    <button id="backToBirthday" style="margin-top:10px;background-color: rgba(0,0,0,0.1); color: var(--text); border:none;">⬅ Back to Wishes</button>
-  </div>
-
-
-  <!-- ---------------- Admin Panel Section ---------------- -->
-  <div id="adminPanel" class="card hidden">
-    <div class="flex" style="justify-content:space-between;align-items:center">
-      <h2>All Wishes (Admin View)</h2>
-      <button id="logoutBtn" style="width: auto; background-color: var(--accent); color: white; padding: 10px 20px; margin-top:0; border:none;">Logout</button>
+      <!-- music control visible on small area also -->
+      <div style="margin-top:12px;text-align:center">
+        <button id="playMusicBtn" style="background:transparent;border:1px solid rgba(0,0,0,0.08);padding:8px;border-radius:10px;cursor:pointer">
+          ▶️ Play Music
+        </button>
+      </div>
     </div>
 
-    <div id="messagesList"></div>
+    <div class="right card">
+      <!-- send wish form -->
+      <h3 style="margin-top:0;color:var(--accent)">Send your sweet wish</h3>
+
+      <label for="recName">Recipient Name</label>
+      <input id="recName" value="Rimjhim">
+
+      <label for="recMsg">Your Message / Shayari</label>
+      <textarea id="recMsg">🌸 রিমঝিম — তোমার হাসি যেন সারা দিন জোয়ারে ভাসে। Happy Birthday! 💖</textarea>
+
+      <div class="row">
+        <div class="col">
+          <label for="recPhoto">Photo URL (optional)</label>
+          <input id="recPhoto" placeholder="Paste an image URL to show with your wish">
+        </div>
+        <div class="col" style="flex:0 0 160px">
+          <label for="phone">Phone (optional)</label>
+          <input id="phone" placeholder="01XXXXXXXXX">
+        </div>
+      </div>
+
+      <label for="senderName">Your Name</label>
+      <input id="senderName" placeholder="Your name (optional)">
+
+      <button id="sendBtn" class="send-btn">Send Sweet Wish! 💖</button>
+
+      <!-- wishes feed -->
+      <h4 style="margin-top:18px;color:var(--accent);">All Wishes</h4>
+      <div id="wishesGrid" class="wishes-grid"></div>
+    </div>
   </div>
-  
-  <!-- "Designed by" at the very bottom -->
-  <p class="footer-link" id="adminOpen">Designed by your friend Shib Sankar Sarkar</p>
+
+  <div style="text-align:center;margin-top:6px;color:gray;font-size:13px">
+    Designed with ❤️ by your friend Shib Sankar Sarkar
+  </div>
 
 </div>
 
-<!-- Firebase SDK -->
+<!-- floating music control -->
+<div class="music-control" id="musicControl" style="display:none">
+  <button id="toggleMute" title="Pause/Play">🔈</button>
+  <div style="font-size:13px;color:var(--text)">Soft Music</div>
+</div>
+
+<!-- Hidden audio (replace MUSIC_URL_HERE with your file if you want full sound) -->
+<audio id="bgMusic" loop muted>
+  <!-- Example: You can replace src with a real mp3 file URL -->
+  <source src="MUSIC_URL_HERE" type="audio/mpeg">
+  <!-- If you don't have a music file, browser will keep it silent -->
+</audio>
+
+<!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
 <script>
-// Firebase config (You already provided)
+/* ========================
+   CONFIG - keep your own
+   ======================== */
 const firebaseConfig = {
   apiKey: "AIzaSyBZA9tXy6D1nyR_zyWaKiq95F5sbGjWttk",
   authDomain: "girls-b8e77.firebaseapp.com",
@@ -205,136 +223,210 @@ const firebaseConfig = {
   appId: "1:241187517416:web:f7547d41aa147d1e52ea5d",
   measurementId: "G-R3MMN74XW8"
 };
-
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const auth = firebase.auth();
 
-// UI elements
-const birthdaySection = document.getElementById('birthdaySection');
-const adminLogin = document.getElementById('adminLogin');
-const adminPanel = document.getElementById('adminPanel');
-
+/* ========================
+   UI Refs
+   ======================== */
+const displayPhoto = document.getElementById('displayPhoto');
+const recPhoto = document.getElementById('recPhoto');
+const sendBtn = document.getElementById('sendBtn');
 const recName = document.getElementById('recName');
 const recMsg = document.getElementById('recMsg');
-const recPhoto = document.getElementById('recPhoto');
 const senderName = document.getElementById('senderName');
-const displayPhoto = document.getElementById('displayPhoto'); 
+const phone = document.getElementById('phone');
+const wishesGrid = document.getElementById('wishesGrid');
+const eyesGrid = document.getElementById('eyesGrid');
 
-const saveBtn = document.getElementById('saveBtn');
-const adminOpen = document.getElementById('adminOpen');
-const backToBirthday = document.getElementById('backToBirthday');
-const loginBtn = document.getElementById('loginBtn');
-const logoutBtn = document.getElementById('logoutBtn');
-const messagesList = document.getElementById('messagesList');
+/* ===============
+   Eyes images
+   =============== */
+/* You provided eyes image(s) earlier; we'll show multiple slots.
+   If you have only one eyes URL, it will be used on both slots.
+   Replace/add more URLs here if you want.
+*/
+const eyesUrls = [
+  "https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/eyes21.jpeg?raw=true",
+  "https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/eyes21.jpeg?raw=true"
+];
 
-// Initial setup for the hero image source (User needs to replace this placeholder)
-const MAIN_PHOTO_URL = "PLACEHOLDER_BIRTHDAY_GIRL_MAIN_IMAGE_URL";
-displayPhoto.src = MAIN_PHOTO_URL;
-
-// Update hero image if the Recipient Photo URL is entered
-recPhoto.oninput = ()=>{
-    if(recPhoto.value.trim()){
-        displayPhoto.src = recPhoto.value.trim();
-    } else {
-        // Fallback to the main image if the input is cleared
-        displayPhoto.src = MAIN_PHOTO_URL;
-    }
+// render eye cards
+function renderEyes(){
+  eyesGrid.innerHTML = '';
+  eyesUrls.forEach((u, i)=>{
+    const c = document.createElement('div'); c.className='eye-card';
+    c.innerHTML = `<img class="eye-img" src="${escapeHtml(u)}" alt="eyes ${i+1}"><div style="margin-top:8px;font-size:13px;color:var(--text)">Eye ${i+1}</div>`;
+    eyesGrid.appendChild(c);
+  });
 }
+renderEyes();
 
-// UI Switching Functions
-function showBirthday(){ birthdaySection.classList.remove('hidden'); adminLogin.classList.add('hidden'); adminPanel.classList.add('hidden'); }
-function showLogin(){ birthdaySection.classList.add('hidden'); adminLogin.classList.remove('hidden'); adminPanel.classList.add('hidden'); }
-function showPanel(){ birthdaySection.classList.add('hidden'); adminLogin.classList.add('hidden'); adminPanel.classList.remove('hidden'); }
+/* ===============
+   Update hero if user enters a photo URL
+   =============== */
+recPhoto.addEventListener('input',()=>{
+  const v = recPhoto.value.trim();
+  displayPhoto.src = v || "https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/Rimjhim.png?raw=true";
+});
 
-adminOpen.onclick = ()=> showLogin();
-backToBirthday.onclick = ()=> showBirthday();
-
-// Save to Firestore
-saveBtn.onclick = async ()=>{
-  const r = recName.value.trim();
+/* ===============
+   Send wish (save to Firestore)
+   =============== */
+sendBtn.addEventListener('click', async ()=>{
+  const r = recName.value.trim() || "Rimjhim";
   const m = recMsg.value.trim();
+  if(!m){ alert("কিছু একটা মেসেজ লিখো তো!"); return; }
   const p = recPhoto.value.trim();
-  const s = senderName.value.trim();
+  const s = senderName.value.trim() || "Anonymous";
+  const ph = phone.value.trim();
 
-  if(!m){ alert("Please write a special message!"); return }
-
-  saveBtn.disabled=true; saveBtn.innerText="Sending Wish...";
+  sendBtn.disabled = true; sendBtn.innerText = "Sending...";
 
   try{
     await db.collection('messages').add({
-      recipient:r || "Friend",
-      text:m,
-      photoURL:p || "",
-      sender:s || "Anonymous Well-wisher",
+      recipient: r,
+      text: m,
+      photoURL: p || "",
+      sender: s,
+      phone: ph || "",
       time: firebase.firestore.FieldValue.serverTimestamp()
     });
-    saveBtn.innerText="Sent Successfully! 🎉";
-    setTimeout(()=>{saveBtn.disabled=false; saveBtn.innerText="Send Sweet Wish! 💖"},3000);
-    
-    // Clear dynamic inputs after successful save
-    recName.value = "Birthday Girl";
-    recMsg.value = "তোমার হসি, তোমার হর্ষ,\nআজকের দিন হোক তোমার শ্রেষ্ঠ বর্ষ।\nHappy Birthday!\nএই কামনা—তোমার জীবন হোক তোমার মতোন মিষ্টি ও সুন্দর।";
-    recPhoto.value = ""; // Clear the optional photo URL
+    sendBtn.innerText = "Sent! 🎉";
+    setTimeout(()=>{ sendBtn.disabled=false; sendBtn.innerText="Send Sweet Wish! 💖" },1200);
+
+    // reset optional fields
+    recPhoto.value = "";
     senderName.value = "";
-    displayPhoto.src = MAIN_PHOTO_URL; // Reset hero image
-  } catch(e){ 
-    alert("Error saving message: " + e.message); 
-    saveBtn.disabled=false; saveBtn.innerText="Send Sweet Wish! 💖" 
-  }
-};
-
-// Admin Login
-loginBtn.onclick = async ()=>{
-  // ... (Login logic is the same)
-};
-
-logoutBtn.onclick = ()=> auth.signOut();
-
-// Auth listener
-let unsub = null;
-auth.onAuthStateChanged(user=>{
-  if(user){
-    showPanel();
-
-    // Realtime listener
-    unsub = db.collection('messages').orderBy('time','desc').onSnapshot(snap=>{
-      messagesList.innerHTML="";
-      snap.forEach(doc=>{
-        const d = doc.data();
-        const t = d.time ? d.time.toDate().toLocaleString() : "—";
-        messagesList.innerHTML += `
-          <div class='msg'>
-            <div style='font-weight:bold; color:var(--accent)'>${escape(d.sender)} 
-            <span style="font-weight:normal; color:var(--text); margin: 0 5px;">→</span> 
-            <span style="color:var(--text)">${escape(d.recipient)}</span></div>
-            <div class='meta'>${t}</div>
-            <div style='margin-top:12px;white-space:pre-wrap;line-height:1.5'>${escape(d.text)}</div>
-            ${d.photoURL ? `
-              <div style='margin-top:10px; font-size:14px; color:var(--accent); word-break: break-all;'>
-                Photo URL: ${escape(d.photoURL)} 
-              </div>
-              <img src='${escape(d.photoURL)}' style='margin-top:10px;max-width:100%;border-radius:12px;display:block;height:auto;border: 2px solid rgba(0,0,0,0.1);'>
-            ` : ''}
-          </div>`;
-      });
-    });
-
-  }else{
-    if(unsub) unsub();
-    showBirthday();
+    phone.value = "";
+    displayPhoto.src = "https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/Rimjhim.png?raw=true";
+  }catch(err){
+    alert("Error: " + err.message);
+    sendBtn.disabled=false;
+    sendBtn.innerText="Send Sweet Wish! 💖";
   }
 });
 
-// Security: Function to escape HTML special characters to prevent XSS
-function escape(s){ 
-    return String(s||"")
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+/* ===============
+   Real-time listener: show wishes as cards
+   =============== */
+db.collection('messages').orderBy('time','desc').onSnapshot(snap=>{
+  wishesGrid.innerHTML = '';
+  snap.forEach(doc=>{
+    const d = doc.data();
+    const when = d.time ? new Date(d.time.seconds*1000).toLocaleString() : '—';
+    const card = document.createElement('div'); card.className='wish-card';
+    card.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-weight:700;color:var(--accent)">${escapeHtml(d.sender||'Anonymous')}</div>
+        <div style="font-size:12px;color:gray">${escapeHtml(when)}</div>
+      </div>
+      <div class="wish-meta">${escapeHtml(d.recipient||'Rimjhim')}</div>
+      <div style="white-space:pre-wrap">${escapeHtml(d.text||'')}</div>
+      ${d.photoURL ? `<img class="wish-photo" src="${escapeHtml(d.photoURL)}" alt="wish photo">` : ''}
+      ${d.phone ? `<div style="margin-top:8px;font-size:13px;color:gray">Phone: ${escapeHtml(d.phone)}</div>` : ''}
+    `;
+    wishesGrid.appendChild(card);
+  });
+});
+
+/* escape to avoid XSS */
+function escapeHtml(s){
+  return String(s||"")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 }
+
+/* ===============
+   Confetti (canvas) - light
+   =============== */
+const conf = document.getElementById('confetti');
+const ctx = conf.getContext('2d');
+function resizeCanvas(){ conf.width = innerWidth; conf.height = innerHeight; }
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+let confetti = [];
+for(let i=0;i<120;i++){
+  confetti.push({x:Math.random()*conf.width,y:Math.random()*conf.height,
+    s:Math.random()*6+4, r:Math.random()*360, v:Math.random()*1.5+0.5, c:`hsl(${Math.random()*360},80%,60%)`});
+}
+function drawConfetti(){
+  ctx.clearRect(0,0,conf.width,conf.height);
+  confetti.forEach(p=>{
+    ctx.save();
+    ctx.translate(p.x,p.y);
+    ctx.rotate(p.r*Math.PI/180);
+    ctx.fillStyle = p.c;
+    ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*0.6);
+    ctx.restore();
+    p.y += p.v;
+    p.r += 2;
+    if(p.y > conf.height + 40){ p.y = -20; p.x = Math.random()*conf.width; }
+  });
+  requestAnimationFrame(drawConfetti);
+}
+drawConfetti();
+
+/* ===============
+   Floating hearts generator
+   =============== */
+const heartsContainer = document.getElementById('hearts');
+function spawnHeart(){
+  const h = document.createElement('div');
+  h.className = 'heart';
+  const size = Math.random()*18 + 12;
+  h.style.width = h.style.height = size + 'px';
+  h.style.left = Math.random()*100 + '%';
+  h.style.top = (90 + Math.random()*10) + '%';
+  h.style.opacity = (Math.random()*0.6 + 0.4);
+  heartsContainer.appendChild(h);
+  const duration = 5000 + Math.random()*5000;
+  h.animate([
+    {transform: `translateY(0) scale(1)`, opacity:h.style.opacity},
+    {transform: `translateY(-90vh) scale(1.2)`, opacity:0}
+  ], {duration:duration, easing:'linear'});
+  setTimeout(()=>{ h.remove(); }, duration+100);
+}
+setInterval(spawnHeart, 800);
+
+/* ===============
+   Music controls (autoplay muted; user can unmute)
+   =============== */
+const bgMusic = document.getElementById('bgMusic');
+const musicControl = document.getElementById('musicControl');
+const toggleMute = document.getElementById('toggleMute');
+const playMusicBtn = document.getElementById('playMusicBtn');
+
+// show control if audio available
+bgMusic.addEventListener('canplay', ()=>{ musicControl.style.display='flex'; });
+
+// try to autoplay muted (most browsers allow muted autoplay)
+bgMusic.volume = 0.6;
+bgMusic.muted = true;
+bgMusic.play().catch(e=>{
+  // autoplay blocked — show play button for user
+  playMusicBtn.style.display = 'inline-block';
+});
+playMusicBtn.addEventListener('click', ()=>{
+  bgMusic.muted = false; bgMusic.play(); musicControl.style.display='flex';
+});
+
+// toggle mute/pause
+toggleMute.addEventListener('click', ()=>{
+  if(bgMusic.paused){ bgMusic.play(); toggleMute.innerText='🔈'; bgMusic.muted=false; }
+  else if(bgMusic.muted){ bgMusic.muted=false; toggleMute.innerText='🔊'; }
+  else{ bgMusic.muted=true; toggleMute.innerText='🔈'; }
+});
+
+/* ===============
+   small UX polish: reveal music control if user interacts (for autoplay safety)
+   =============== */
+window.addEventListener('click', ()=>{ if(bgMusic.paused) { /* no-op */ } musicControl.style.display='flex'; }, {once:true});
+
 </script>
 </body>
 </html>
