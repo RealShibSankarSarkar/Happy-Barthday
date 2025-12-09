@@ -3,20 +3,54 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Birthday + Admin — Single Page</title>
+  <title>Happy Birthday Rimjhim</title>
   <style>
-    :root{--bg:#0f172a;--card:#0b1220;--accent:#ff6b6b;--accent2:#ffd166;--text:#f8fafc}
-    html,body{margin:0;height:100%;font-family:system-ui,-apple-system,Segoe UI,Roboto,'Noto Sans',sans-serif;background:#071325;color:var(--text)}
+    /* Color Palette Update for a more festive feel */
+    :root{
+      --bg:#070b14; /* Darker blue */
+      --card:#0e1a2d; /* Slightly lighter card background */
+      --accent:#ff6b6b; /* Red */
+      --accent2:#ff8c42; /* Orange for gradient */
+      --text:#f8fafc;
+      --rimjhim-accent:#ffd166; /* Gold/Yellow for highlight */
+    }
+    html,body{margin:0;height:100%;font-family:system-ui,-apple-system,Segoe UI,Roboto,'Noto Sans',sans-serif;background:var(--bg);color:var(--text);padding-bottom: 40px;}
     .wrap{max-width:980px;margin:0 auto;padding:20px}
-    .card{background:rgba(255,255,255,0.04);padding:20px;border-radius:14px;box-shadow:0 0 18px rgba(0,0,0,0.3)}
-    input,textarea,button{padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);background:transparent;color:inherit;width:100%;box-sizing:border-box;margin-top:6px}
+    .card{background:var(--card);padding:25px;border-radius:18px;box-shadow:0 0 25px rgba(0,0,0,0.5);border: 1px solid rgba(255,255,255,0.08);}
+    input,textarea,button{padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:rgba(0,0,0,0.2);color:inherit;width:100%;box-sizing:border-box;margin-top:8px}
     textarea{resize:vertical}
-    button{cursor:pointer}
-    .flex{display:flex;gap:10px}
+    button{cursor:pointer;transition:background-color 0.2s;}
+    button:hover{filter:brightness(1.1);}
+    .flex{display:flex;gap:15px}
     .hidden{display:none}
-    .msg{padding:12px;border-radius:10px;background:rgba(255,255,255,0.06);margin-top:10px}
+    .msg{padding:15px;border-radius:12px;background:rgba(255,255,255,0.08);margin-top:12px;border-left: 4px solid var(--rimjhim-accent);}
     .meta{font-size:12px;color:rgba(255,255,255,0.6)}
-    .footer-link{text-align:center;margin-top:18px;text-decoration:underline;cursor:pointer;color:#ffd166}
+    .footer-link{text-align:center;margin-top:25px;font-size: 14px;color:var(--rimjhim-accent);cursor:pointer;text-decoration: none;}
+    .footer-link:hover{text-decoration: underline;}
+
+    /* Custom Styles for Birthday Section */
+    .birthday-header{
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .birthday-header h2{
+      font-size: 2.5rem;
+      color: var(--rimjhim-accent);
+      text-shadow: 0 0 15px rgba(255, 209, 102, 0.4);
+      margin-bottom: 5px;
+    }
+    .hero-img-container{
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    .hero-img{
+      max-width: 250px;
+      height: auto;
+      border-radius: 50%;
+      border: 5px solid var(--rimjhim-accent);
+      box-shadow: 0 0 20px rgba(255, 209, 102, 0.6);
+      object-fit: cover;
+    }
   </style>
 </head>
 <body>
@@ -24,9 +58,18 @@
 
   <!-- ---------------- Birthday Section ---------------- -->
   <div id="birthdaySection" class="card">
-    <h2>Happy Birthday</h2>
+    <div class="birthday-header">
+      <h2>Happy Birthday Rimjhim!</h2>
+      <p style="color: rgba(255,255,255,0.8);">Send your heartfelt wishes to the Birthday Girl!</p>
+    </div>
+
+    <!-- Prominent Image of the Birthday Girl -->
+    <div class="hero-img-container">
+      <img id="displayPhoto" class="hero-img" src="https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/Rimjhim.png?raw=true" alt="Rimjhim's Picture">
+    </div>
+
     <label>Recipient Name</label>
-    <input id="recName" placeholder="e.g. Riya">
+    <input id="recName" value="Rimjhim" placeholder="e.g. Riya">
 
     <label>Your Message / Shayari</label>
     <textarea id="recMsg" rows="4">Tomar hosh, tomar hasi,
@@ -34,15 +77,14 @@ Ei chotto dine hok sob kotha beshi.
 Happy Birthday,
 Ei prarthona—tomar jibon hok tomar motoi mishti.</textarea>
 
-    <label>Photo URL (optional)</label>
-    <input id="recPhoto" placeholder="Image link here">
+    <label>Photo URL (optional) - For the Recipient</label>
+    <!-- Default value is Rimjhim's main photo for a suggestion -->
+    <input id="recPhoto" value="https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/Rimjhim.png?raw=true" placeholder="Image link here">
 
     <label>Your Name (sender)</label>
     <input id="senderName" placeholder="Your name">
 
-    <button id="saveBtn" style="margin-top:15px;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#000;font-weight:700">Save Message</button>
-
-    <p class="footer-link" id="adminOpen">Designed by your friend Shib Sankar Sarkar</p>
+    <button id="saveBtn" style="margin-top:20px;background:linear-gradient(90deg,var(--accent),var(--accent2));color:var(--bg);font-weight:700;font-size: 1.1rem;padding: 15px;">Save Your Wish</button>
   </div>
 
 
@@ -55,9 +97,9 @@ Ei prarthona—tomar jibon hok tomar motoi mishti.</textarea>
     <label>Password</label>
     <input id="adminPass" type="password" value="JaiHanuman!S">
 
-    <button id="loginBtn" style="margin-top:12px">Login</button>
+    <button id="loginBtn" style="margin-top:15px;background-color: var(--rimjhim-accent); color: var(--bg);">Login</button>
 
-    <button id="backToBirthday" style="margin-top:10px">⬅ Back</button>
+    <button id="backToBirthday" style="margin-top:10px;background-color: rgba(255,255,255,0.1);">⬅ Back to Wishes</button>
   </div>
 
 
@@ -65,11 +107,14 @@ Ei prarthona—tomar jibon hok tomar motoi mishti.</textarea>
   <div id="adminPanel" class="card hidden">
     <div class="flex" style="justify-content:space-between;align-items:center">
       <h2>All Messages</h2>
-      <button id="logoutBtn">Logout</button>
+      <button id="logoutBtn" style="width: auto; background-color: var(--accent); padding: 8px 15px;">Logout</button>
     </div>
 
     <div id="messagesList"></div>
   </div>
+  
+  <!-- "Designed by" moved to the very bottom outside of the main cards -->
+  <p class="footer-link" id="adminOpen">Designed by your friend Shib Sankar Sarkar</p>
 
 </div>
 
@@ -104,6 +149,7 @@ const recName = document.getElementById('recName');
 const recMsg = document.getElementById('recMsg');
 const recPhoto = document.getElementById('recPhoto');
 const senderName = document.getElementById('senderName');
+const displayPhoto = document.getElementById('displayPhoto'); // New element for the hero image
 
 const saveBtn = document.getElementById('saveBtn');
 const adminOpen = document.getElementById('adminOpen');
@@ -114,6 +160,13 @@ const adminPass = document.getElementById('adminPass');
 const loginBtn = document.getElementById('loginBtn');
 const logoutBtn = document.getElementById('logoutBtn');
 const messagesList = document.getElementById('messagesList');
+
+// Update hero image if the recPhoto changes (optional feature)
+recPhoto.oninput = ()=>{
+    if(recPhoto.value.trim()){
+        displayPhoto.src = recPhoto.value.trim();
+    }
+}
 
 // Switch UI
 function showBirthday(){ birthdaySection.classList.remove('hidden'); adminLogin.classList.add('hidden'); adminPanel.classList.add('hidden'); }
@@ -136,15 +189,19 @@ saveBtn.onclick = async ()=>{
 
   try{
     await db.collection('messages').add({
+      // Security: Store raw data, escaping happens only on display in admin panel.
       recipient:r || "Friend",
       text:m,
       photoURL:p || "",
       sender:s || "Anonymous",
       time: firebase.firestore.FieldValue.serverTimestamp()
     });
-    saveBtn.innerText="Saved ✓";
-    setTimeout(()=>{saveBtn.disabled=false; saveBtn.innerText="Save Message"},1500);
-  } catch(e){ alert(e.message); saveBtn.disabled=false; saveBtn.innerText="Save Message" }
+    saveBtn.innerText="Saved ✓ (Your Wish is on the way!)";
+    setTimeout(()=>{saveBtn.disabled=false; saveBtn.innerText="Save Your Wish"},2000);
+  } catch(e){ 
+    alert("Error saving message: " + e.message); 
+    saveBtn.disabled=false; saveBtn.innerText="Save Your Wish" 
+  }
 };
 
 // Admin Login
@@ -172,21 +229,22 @@ auth.onAuthStateChanged(user=>{
         const t = d.time ? d.time.toDate().toLocaleString() : "—";
         messagesList.innerHTML += `
           <div class='msg'>
-            <div style='font-weight:bold'>${escape(d.sender)} → <span style="color:#ffd166">${escape(d.recipient)}</span></div>
+            <div style='font-weight:bold'>${escape(d.sender)} → <span style="color:var(--rimjhim-accent)">${escape(d.recipient)}</span></div>
             <div class='meta'>${t}</div>
-            <div style='margin-top:8px;white-space:pre-wrap'>${escape(d.text)}</div>
-            ${d.photoURL ? `<img src='${escape(d.photoURL)}' style='margin-top:8px;max-width:200px;border-radius:8px'>` : ''}
+            <div style='margin-top:10px;white-space:pre-wrap;line-height:1.4'>${escape(d.text)}</div>
+            ${d.photoURL ? `<img src='${escape(d.photoURL)}' style='margin-top:12px;max-width:90%;border-radius:10px;display:block;height:auto;'>` : ''}
           </div>`;
       });
     });
 
   }else{
     if(unsub) unsub();
-    showLogin();
+    showBirthday(); // Redirect to birthday page after logout
   }
 });
 
-function escape(s){ return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;") }
+// Security: Function to escape HTML special characters to prevent XSS
+function escape(s){ return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;") }
 </script>
 </body>
 </html>
