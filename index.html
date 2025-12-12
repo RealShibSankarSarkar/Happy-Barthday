@@ -4,8 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Rimjhim's Surprise 🎉</title> 
-  <!-- Title is now generic/surprise -->
-
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
@@ -91,6 +90,19 @@
 
     /* music/unmute button */
     .music-control{position:fixed;right:18px;bottom:18px;z-index:9;background:white;padding:10px;border-radius:999px;box-shadow:0 10px 30px rgba(0,0,0,0.12);display:flex;gap:8px;align-items:center}
+    
+    /* Full-screen overlay for user interaction (MUST be on top initially) */
+    #initialOverlay{
+        position:fixed;left:0;top:0;width:100%;height:100%;background:var(--bg);z-index:10;
+        display:flex;flex-direction:column;justify-content:center;align-items:center;
+    }
+    #initialButton{
+        padding:20px 40px;border-radius:15px;border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));
+        color:white;font-weight:700;cursor:pointer;font-size:1.5rem;box-shadow:0 10px 30px rgba(255,112,166,0.3);
+        transition:transform .18s;
+    }
+    #initialButton:active{transform:translateY(2px)}
+
 
     @media(max-width:720px){
       .title{font-size:2rem}
@@ -102,23 +114,29 @@
 </head>
 <body>
 
+<!-- Full-screen overlay for user interaction (Initial state) -->
+<div id="initialOverlay">
+    <h1 class="title" style="margin-bottom:40px;font-size:2.5rem;animation:none;text-shadow:none;">একটি দারুণ চমক অপেক্ষা করছে!</h1>
+    <button id="initialButton">🎉 Tap to Reveal Surprise & Play Music 🎉</button>
+</div>
+
 <!-- floating hearts container -->
 <div class="hearts" id="hearts"></div>
 
 <!-- confetti canvas -->
 <canvas id="confetti"></canvas>
 
-<div class="wrap">
+<div class="wrap" id="mainWrap" style="display:none;">
+    <!-- Main content is now wrapped and hidden initially -->
 
-  <!-- DYNAMIC HEADER: Text changes from "Surprise Loading..." to "Happy Birthday..." at 12 AM -->
   <div class="card header">
     <div>
-      <h1 id="dynamicTitle" class="title" style="animation:none;text-shadow:none;">Rimjhim-এর জন্য একটি দারুণ চমক</h1>
-      <p id="dynamicSubtitle" class="subtitle">আর মাত্র একটু অপেক্ষা...</p>
+      <h1 id="dynamicTitle" class="title" style="animation:none;text-shadow:none;">Rimjhim, তোকে বিশেষ ভাবে মনে রেখেই একটা ছোট্ট চমক বানিয়েছি… আশা করি ভালো লাগবে।</h1>
+      <p id="dynamicSubtitle" class="subtitle" style="display:none;"></p>
     </div>
   </div>
 
-  <!-- COUNTDOWN TIMER SECTION (Visible until Dec 16, 12 AM) -->
+  <!-- COUNTDOWN TIMER SECTION (Visible after initial click, until Dec 16, 12 AM) -->
   <div id="countdownContainer" class="card" style="text-align:center;">
       <h2 style="color:var(--accent);margin-top:0">সেই বিশেষ মুহূর্তটি শুরু হতে বাকি</h2>
       <div id="countdownDisplay" style="font-size:2rem;font-weight:700;color:var(--text);margin: 18px 0;">Loading Timer...</div>
@@ -140,16 +158,14 @@
         <div class="shayari" style="margin-top:18px">
           <strong style="display:block;margin-bottom:8px;color:var(--accent)">A special wish for you</strong>
           <div style="white-space:pre-wrap">
-            তোমার চোখে স্বপ্ন, তোমার হাসিতে আলো —  
-            আজকের দিন হোক শুধু তোমার খুশির পালা।
+            তোকে শুধু একটা কথা বলি—আজকের দিনটা যেন ভালো কাটে, হাসিখুশি থাকিস।
           </div>
         </div>
 
-        <!-- music control visible on small area also -->
+        <!-- Music Play Button (hidden, only a fallback now) -->
         <div style="margin-top:12px;text-align:center">
-          <!-- This button is now only a fallback for unmuting if the main logic fails -->
           <button id="playMusicBtn" style="background:transparent;border:1px solid rgba(0,0,0,0.08);padding:8px;border-radius:10px;cursor:pointer;display:none;">
-            ▶️ Unmute Music
+            ▶️ Play Music
           </button>
         </div>
       </div>
@@ -162,7 +178,7 @@
         <input id="recName" value="Rimjhim">
 
         <label for="recMsg">Your Message / Shayari</label>
-        <textarea id="recMsg">🌸 রিমঝিম — তোমার হাসি যেন সারা দিন জোয়ারে ভাসে। Happy Birthday! 💖</textarea>
+        <textarea id="recMsg">🌸 রিমঝিম — তোকে শুধু বলি, হাসিখুশি থাক আজকের পুরো দিনটা। Happy Birthday! 💛</textarea>
 
         <div class="row">
           <div class="col" style="flex:0 0 160px">
@@ -170,7 +186,6 @@
             <input id="phone" placeholder="01XXXXXXXXX">
           </div>
         </div>
-        <!-- Photo URL input field removed -->
 
         <label for="senderName">Your Name</label>
         <input id="senderName" placeholder="Your name (optional)">
@@ -193,12 +208,13 @@
 
 <!-- floating music control -->
 <div class="music-control" id="musicControl" style="display:none">
-  <button id="toggleMute" title="Pause/Play">🔈</button>
+  <button id="toggleMute" title="Pause/Play">🔊</button>
   <div style="font-size:13px;color:var(--text)">Soft Music</div>
 </div>
 
 <!-- Hidden audio -->
-<audio id="bgMusic" loop muted>
+<audio id="bgMusic" loop>
+  <!-- Set volume low initially, but let user click to play/unmute -->
   <source src="https://files.catbox.moe/lnkg6v.mp3" type="audio/mpeg">
 </audio>
 
@@ -227,7 +243,6 @@ const auth = firebase.auth();
 /* ========================
    UI Refs
    ======================== */
-const displayPhoto = document.getElementById('displayPhoto');
 const sendBtn = document.getElementById('sendBtn');
 const recName = document.getElementById('recName');
 const recMsg = document.getElementById('recMsg');
@@ -237,43 +252,66 @@ const wishesGrid = document.getElementById('wishesGrid');
 
 // NEW UI Refs for Countdown
 const dynamicTitle = document.getElementById('dynamicTitle');
-const dynamicSubtitle = document.getElementById('dynamicSubtitle');
 const countdownContainer = document.getElementById('countdownContainer');
 const countdownDisplay = document.getElementById('countdownDisplay');
 const birthdayContent = document.getElementById('birthdayContent');
+const initialOverlay = document.getElementById('initialOverlay');
+const initialButton = document.getElementById('initialButton');
+const mainWrap = document.getElementById('mainWrap');
 
 let isBigBlastActive = false; // Flag for 15-minute animation/music
+
+/* ===============
+   Initial Interaction & Music Handler (FIX)
+   =============== */
+function startAppAndMusic() {
+    // 1. Hide the Overlay and Show Main Content
+    initialOverlay.style.display = 'none';
+    mainWrap.style.display = 'block';
+
+    // 2. Play Music Unmuted/Normal Volume
+    bgMusic.volume = 0.6;
+    bgMusic.muted = false; // Try unmuted after user click
+    bgMusic.play().catch(e => {
+        console.error("Music play failed even after user interaction:", e);
+        // Fallback: If unmuted play fails, play muted and let user unmute.
+        bgMusic.muted = true;
+        bgMusic.play().catch(()=>{});
+        toggleMute.innerText = '🔈';
+    });
+    
+    // 3. Start the regular timer or trigger reveal if time has passed
+    updateCountdown();
+    const timerInterval = setInterval(updateCountdown, 1000);
+}
+initialButton.addEventListener('click', startAppAndMusic, {once: true});
+
 
 /* ===============
    Countdown Timer Logic + Testing Mode
    =============== */
 
 const currentYear = new Date().getFullYear();
-// Target date: December 16th, 12:00 AM (00:00:00)
 let targetDate = new Date(currentYear, 11, 16, 0, 0, 0); 
-const specialEventDuration = 15 * 60 * 1000; // 15 minutes in milliseconds
+const specialEventDuration = 15 * 60 * 1000; 
 
-// --- TESTING OVERRIDE: If URL contains ?mode=test, override the target date ---
 const urlParams = new URLSearchParams(window.location.search);
 if (urlParams.get('mode') === 'test') {
     // Set target date 10 seconds in the future for easy testing
     targetDate = new Date(new Date().getTime() + 10000); 
     console.log("TEST MODE ACTIVATED: Target set 10 seconds from now.");
 }
-// ----------------------------------------------------------------------------
-
 
 function handleBirthdayStart() {
     // 1. Update the Main Header Text/Animation
-    dynamicTitle.innerText = 'Happy Birthday, Rimjhim'; // The actual reveal
+    dynamicTitle.innerText = 'Happy Birthday, Rimjhim'; 
     dynamicTitle.style.animation = 'neon 3s infinite';
     dynamicTitle.style.textShadow = '0 0 6px rgba(255,112,166,0.8)';
-    dynamicSubtitle.innerText = 'আজকের দিনটা তোমার মতোই রঙিন — হাসি, ভালোলাগা ও রিমঝিম আনন্দে ভরপুর।';
 
     // 2. Hide Countdown and Show Main Content
     countdownContainer.style.display = 'none';
     birthdayContent.style.display = 'block';
-    musicControl.style.display='flex'; // Ensure music control shows up
+    musicControl.style.display='flex'; 
 
     // Check for the 15-minute special event
     const now = new Date().getTime();
@@ -283,22 +321,15 @@ function handleBirthdayStart() {
         // --- START 15-MINUTE SPECIAL EVENT (UNMUTE & CONFETTI) ---
         isBigBlastActive = true;
         
-        // Unmute and check if playing (it should be, from initial autoplay)
+        // Ensure music is unmuted and playing
         bgMusic.muted = false;
-        if(bgMusic.paused){
-            bgMusic.play().catch(e => {
-                // Should not happen if already muted-playing, but for safety
-                console.log("Failed to play unmuted after reveal:", e);
-                playMusicBtn.style.display = 'inline-block';
-                playMusicBtn.innerText = "🔊 Play Celebration Music!";
-            });
-        }
-        toggleMute.innerText = '🔊'; // Update icon to show it's unmuted
+        if(bgMusic.paused) { bgMusic.play().catch(()=>{}); }
+        toggleMute.innerText = '🔊'; 
 
         // Trigger Big Confetti Blast and increase heart rate
         triggerBigConfetti();
         clearInterval(heartInterval);
-        heartInterval = setInterval(spawnHeart, 400); // Faster hearts
+        heartInterval = setInterval(spawnHeart, 400); 
 
         // Set a timer to revert after 15 minutes
         setTimeout(() => {
@@ -307,7 +338,6 @@ function handleBirthdayStart() {
             clearInterval(heartInterval);
             heartInterval = setInterval(spawnHeart, 800);
             
-            // Revert music to muted after 15 min if it's still unmuted
             if(!bgMusic.muted){
                 bgMusic.muted = true;
                 toggleMute.innerText = '🔈';
@@ -317,8 +347,9 @@ function handleBirthdayStart() {
         // --- END 15-MINUTE SPECIAL EVENT ---
 
     } else {
-        // If past the special time, continue with muted play (already handled by initial logic)
-        // Ensure the toggle button is correct (default muted state)
+        // Past the special time, ensure it's playing but muted for politeness
+        bgMusic.muted = true;
+        if(bgMusic.paused) { bgMusic.play().catch(()=>{}); }
         toggleMute.innerText = '🔈';
     }
 
@@ -330,50 +361,37 @@ function updateCountdown() {
     const now = new Date().getTime();
     let distance = targetDate.getTime() - now;
 
-    // Check if the target date has passed
     if (distance < 0) {
         handleBirthdayStart();
         return;
     }
 
-    // Calculation (Days, Hours, Minutes, Seconds)
     const days = Math.floor(distance / (1000 * 60 * 60 * 24));
     const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-    // Display the result (Bengali text)
     countdownDisplay.innerHTML = `${days} দিন : ${hours} ঘন্টা : ${minutes} মিনিট : ${seconds} সেকেন্ড`;
 }
 
-// Run the function immediately and then every second
-updateCountdown();
-const timerInterval = setInterval(updateCountdown, 1000);
-
-/* ===============
-   Initial Muted Autoplay
-   =============== */
-bgMusic.volume = 0.6;
-bgMusic.muted = true;
-bgMusic.play().catch(e=>{
-    // If even muted autoplay fails (strict policies), prompt user to click anywhere
-    playMusicBtn.style.display = 'inline-block';
-    playMusicBtn.innerText = "▶️ Play Music (Touch to enable)";
-    // Hide the countdown play button when music control bar is shown after any click
-    document.body.addEventListener('click', () => {
-        if(bgMusic.paused && playMusicBtn.style.display !== 'none'){
-            bgMusic.muted = false; // Try unmuted this time
-            bgMusic.play().catch(()=>{}); // If it fails, rely on the main controls
-            playMusicBtn.style.display = 'none';
-        }
+// Initial check: if targetDate is already passed, skip the overlay
+if (targetDate.getTime() <= new Date().getTime()) {
+    // If the birthday already started, skip the overlay and start immediately
+    initialOverlay.style.display = 'none';
+    mainWrap.style.display = 'block';
+    // Since autoplay may fail anyway, show the button as a final fallback
+    initialButton.innerText = "🎉 Tap to Play Music and Load Wishes 🎉";
+    initialOverlay.style.display = 'flex'; // Temporarily show to get the click
+    initialButton.addEventListener('click', () => {
+        initialOverlay.style.display = 'none';
+        mainWrap.style.display = 'block';
+        handleBirthdayStart(); // Trigger the reveal logic
     }, {once: true});
-});
-// Hide the separate play button if it successfully starts
-bgMusic.addEventListener('play', () => { 
-    if(birthdayContent.style.display !== 'block'){
-        playMusicBtn.style.display = 'none'; 
-    }
-});
+    
+    // Fallback: If user never clicks, at least show the countdown area content
+    // handleBirthdayStart will be called on the click.
+    
+}
 
 
 /* ===============
@@ -454,7 +472,6 @@ window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 let confetti = [];
 
-// Initial light confetti
 function initializeLightConfetti(){
   confetti.length = 0;
   for(let i=0;i<120;i++){
@@ -477,10 +494,8 @@ function drawConfetti(){
     p.r += 2;
     if(p.y > conf.height + 40){ 
         if(isBigBlastActive){
-            // During blast, restart from top rapidly
             p.y = -20; p.x = Math.random()*conf.width;
         } else {
-            // Normal flow, restart from random Y below visible area
             p.y = Math.random() * conf.height * -1; p.x = Math.random()*conf.width; 
         }
     }
@@ -489,16 +504,14 @@ function drawConfetti(){
 }
 drawConfetti();
 
-// Big blast function called on timer end
 function triggerBigConfetti() {
-    confetti.length = 0; // Clear existing confetti
-    // Spawn 500 pieces starting from the top
+    confetti.length = 0; 
     for(let i=0;i<500;i++){ 
         confetti.push({x:Math.random()*conf.width,
-                       y:Math.random()*conf.height * -1, // Start off-screen top
+                       y:Math.random()*conf.height * -1, 
                        s:Math.random()*8+6, 
                        r:Math.random()*360, 
-                       v:Math.random()*3+1.5, // Faster drop
+                       v:Math.random()*3+1.5, 
                        c:`hsl(${Math.random()*360},80%,60%)`});
     }
 }
@@ -524,7 +537,7 @@ function spawnHeart(){
   ], {duration:duration, easing:'linear'});
   setTimeout(()=>{ h.remove(); }, duration+100);
 }
-let heartInterval = setInterval(spawnHeart, 800); // Initial slower hearts
+let heartInterval = setInterval(spawnHeart, 800); 
 
 /* ===============
    Music controls Toggle
@@ -532,7 +545,6 @@ let heartInterval = setInterval(spawnHeart, 800); // Initial slower hearts
 const bgMusic = document.getElementById('bgMusic');
 const musicControl = document.getElementById('musicControl');
 const toggleMute = document.getElementById('toggleMute');
-const playMusicBtn = document.getElementById('playMusicBtn');
 
 // toggle mute/pause
 toggleMute.addEventListener('click', ()=>{
@@ -549,14 +561,6 @@ toggleMute.addEventListener('click', ()=>{
     toggleMute.innerText='🔈'; 
   }
 });
-
-// small UX polish: reveal music control if user interacts
-window.addEventListener('click', ()=>{ 
-    if(birthdayContent.style.display !== 'none'){
-        musicControl.style.display='flex'; 
-    }
-}, {once:true});
-
 </script>
 </body>
 </html>
