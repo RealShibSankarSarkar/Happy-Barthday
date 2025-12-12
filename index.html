@@ -57,25 +57,49 @@
       100%{transform:scale(1)}
     }
 
-    /* photo album grid (NEW) */
-    .photo-album-grid{
-        display:grid;
-        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); 
-        gap: 8px;
-        margin-top: 12px;
+    /* photo album scroll (NEW) */
+    .photo-album-scroll {
+        display: flex; 
+        overflow-x: scroll; /* Enable horizontal scrolling */
+        gap: 10px; 
+        padding: 10px 0; 
+        margin-top: 18px;
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+        scroll-snap-type: x mandatory; /* Optional: Snap to photos */
     }
-    .album-img{
-        width:100%;
-        aspect-ratio: 1 / 1; 
-        object-fit: cover;
-        border-radius: 8px;
-        border: 2px solid rgba(255, 112, 166, 0.3); 
-        transition: transform .2s ease;
+    .photo-album-scroll::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
     }
-    .album-img:hover{
+    .album-item {
+        flex-shrink: 0; 
+        width: 120px; 
+        height: 120px; 
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        border: 3px solid white; 
+        transition: transform .2s ease, box-shadow .2s ease;
+        scroll-snap-align: start; /* Snap point */
+    }
+    .album-item:hover{
         transform: scale(1.05);
+        box-shadow: 0 8px 15px rgba(255,112,166,0.3);
     }
-    /* end photo album grid */
+    .album-img-inner {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+    .scroll-hint{
+        text-align: center;
+        font-size: 0.8rem;
+        color: gray;
+        margin-top: 4px;
+        margin-bottom: 0;
+    }
+    /* end photo album scroll */
 
     /* shayari box */
     .shayari{background:linear-gradient(180deg, #fff, #fff);padding:16px;border-radius:12px;margin-bottom:12px;line-height:1.7;border-left:6px solid var(--accent);box-shadow:0 8px 20px rgba(0,0,0,0.04)}
@@ -169,19 +193,34 @@
     <div class="top-row">
       <div class="left card">
         <div class="hero-wrap">
-          <!-- Main Hero Image (PRIORITIZED) -->
+          <!-- Main Hero Image (Prioritized image - Framed) -->
           <img id="displayPhoto" class="hero" alt="Rimjhim" 
               src="https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/cuttee.jpeg?raw=true">
         </div>
         
-        <!-- Photo Album Section (NEW) -->
-        <h4 style="margin-top:18px;color:var(--accent);text-align:center">Memories 📸</h4>
-        <div class="photo-album-grid">
-            <!-- Album images added here -->
-            <img class="album-img" alt="Album photo 1" src="https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/Rimjhim.png?raw=true">
-            <img class="album-img" alt="Album photo 2" src="https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/album.jpg?raw=true">
-            <img class="album-img" alt="Album photo 3" src="https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/eyes21.jpeg?raw=true">
+        <!-- Photo Album Section (Horizontal Scroll - NEW) -->
+        <h4 style="margin-top:18px;color:var(--accent);margin-bottom:0;text-align:center">Album: Sweet Memories 💖</h4>
+        <div class="photo-album-scroll">
+            <!-- Album items: All images, including the main one -->
+            <div class="album-item">
+                <img class="album-img-inner" alt="Album photo 1" src="https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/cuttee.jpeg?raw=true">
+            </div>
+            <div class="album-item">
+                <img class="album-img-inner" alt="Album photo 2" src="https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/Rimjhim.png?raw=true">
+            </div>
+            <div class="album-item">
+                <img class="album-img-inner" alt="Album photo 3" src="https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/album.jpg?raw=true">
+            </div>
+            <div class="album-item">
+                <img class="album-img-inner" alt="Album photo 4" src="https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/eyes21.jpeg?raw=true">
+            </div>
+            <div class="album-item" style="width:100px;background:var(--accent2);display:grid;place-items:center;font-size:0.8rem;color:white;border:none;">
+                ❤️ End of Album
+            </div>
         </div>
+        <p class="scroll-hint">
+            ⬅️ Scroll/Swipe to see more photos ➡️
+        </p>
         <!-- End Photo Album Section -->
 
 
