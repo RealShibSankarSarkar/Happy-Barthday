@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Happy Birthday Rimjhim — Premium 🎉</title>
+  <title>Rimjhim's Surprise Birthday 🎉</title> 
+  <!-- Title is now generic/surprise -->
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -109,18 +110,19 @@
 
 <div class="wrap">
 
+  <!-- DYNAMIC HEADER: Text changes from "Surprise Loading..." to "Happy Birthday..." at 12 AM -->
   <div class="card header">
     <div>
-      <h1 class="title">Happy Birthday, Rimjhim</h1>
-      <p class="subtitle">আজকের দিনটা তোমার মতোই রঙিন — হাসি, ভালোলাগা ও রিমঝিম আনন্দে ভরপুর।</p>
+      <h1 id="dynamicTitle" class="title" style="animation:none;text-shadow:none;">Rimjhim-এর জন্য একটি উপহার</h1>
+      <p id="dynamicSubtitle" class="subtitle">আর মাত্র কয়েকটা মুহূর্ত...</p>
     </div>
   </div>
 
   <!-- COUNTDOWN TIMER SECTION (Visible until Dec 16, 12 AM) -->
   <div id="countdownContainer" class="card" style="text-align:center;">
-      <h2 style="color:var(--accent);margin-top:0">🎉 Rimjhim-এর জন্মদিন আসছে! 🎉</h2>
+      <h2 style="color:var(--accent);margin-top:0">জন্মদিনের ক্ষণ শুরু হতে বাকি</h2>
       <div id="countdownDisplay" style="font-size:2rem;font-weight:700;color:var(--text);margin: 18px 0;">Loading Timer...</div>
-      <p style="margin-bottom:0;font-size:1.1rem;font-weight:600">১৬ই ডিসেম্বর, ঠিক রাত ১২:০০ টায় এই পেজটি উন্মুক্ত হবে।</p>
+      <p style="margin-bottom:0;font-size:1.1rem;font-weight:600">১৬ই ডিসেম্বর, ঠিক রাত ১২:০০ টায় ম্যাজিক শুরু হবে।</p>
   </div>
   <!-- END COUNTDOWN TIMER SECTION -->
 
@@ -163,11 +165,11 @@
 
         <div class="row">
           <div class="col" style="flex:0 0 160px">
-            <!-- Photo URL field removed as requested -->
             <label for="phone">Phone (optional)</label>
             <input id="phone" placeholder="01XXXXXXXXX">
           </div>
         </div>
+        <!-- Photo URL input field removed -->
 
         <label for="senderName">Your Name</label>
         <input id="senderName" placeholder="Your name (optional)">
@@ -196,11 +198,7 @@
 
 <!-- Hidden audio -->
 <audio id="bgMusic" loop muted>
-  <!-- 
-  মনোযোগ: গুগল ড্রাইভ লিঙ্কটি সরাসরি ব্রাউজারে নাও চলতে পারে।
-  যদি না চলে, তবে এই src-কে একটি সরাসরি .mp3 ফাইলের লিঙ্কের সাথে প্রতিস্থাপন করুন।
-  নিচে গুগল ড্রাইভের ডাউনলোডের প্রচেষ্টা করা হয়েছে: 
-  -->
+  <!-- NOTE: Google Drive link used as requested. If it fails to play due to permission/format issues, replace with a direct .mp3 link. -->
   <source src="https://drive.google.com/uc?export=download&id=1FR-lJt4pwAvpXEaHsddySce1IawR323O" type="audio/mpeg">
 </audio>
 
@@ -230,7 +228,6 @@ const auth = firebase.auth();
    UI Refs
    ======================== */
 const displayPhoto = document.getElementById('displayPhoto');
-// const recPhoto = document.getElementById('recPhoto'); // REMOVED
 const sendBtn = document.getElementById('sendBtn');
 const recName = document.getElementById('recName');
 const recMsg = document.getElementById('recMsg');
@@ -239,6 +236,8 @@ const phone = document.getElementById('phone');
 const wishesGrid = document.getElementById('wishesGrid');
 
 // NEW UI Refs for Countdown
+const dynamicTitle = document.getElementById('dynamicTitle');
+const dynamicSubtitle = document.getElementById('dynamicSubtitle');
 const countdownContainer = document.getElementById('countdownContainer');
 const countdownDisplay = document.getElementById('countdownDisplay');
 const birthdayContent = document.getElementById('birthdayContent');
@@ -246,20 +245,36 @@ const birthdayContent = document.getElementById('birthdayContent');
 let isBigBlastActive = false; // Flag for 15-minute animation/music
 
 /* ===============
-   Countdown Timer Logic
+   Countdown Timer Logic + Testing Mode
    =============== */
 
-// Target date: December 16th, 12:00 AM (00:00:00) of the current year
 const currentYear = new Date().getFullYear();
-// Month is 0-indexed (11 = December). 16th day, 0 hour, 0 minute, 0 second.
+// Target date: December 16th, 12:00 AM (00:00:00)
 let targetDate = new Date(currentYear, 11, 16, 0, 0, 0); 
 const specialEventDuration = 15 * 60 * 1000; // 15 minutes in milliseconds
 
+// --- TESTING OVERRIDE: If URL contains ?mode=test, override the target date ---
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('mode') === 'test') {
+    // Set target date 10 seconds in the future for easy testing
+    targetDate = new Date(new Date().getTime() + 10000); 
+    console.log("TEST MODE ACTIVATED: Target set 10 seconds from now.");
+}
+// ----------------------------------------------------------------------------
+
+
 function handleBirthdayStart() {
+    // 1. Update the Main Header Text/Animation
+    dynamicTitle.innerText = 'Happy Birthday, Rimjhim';
+    dynamicTitle.style.animation = 'neon 3s infinite';
+    dynamicTitle.style.textShadow = '0 0 6px rgba(255,112,166,0.8)';
+    dynamicSubtitle.innerText = 'আজকের দিনটা তোমার মতোই রঙিন — হাসি, ভালোলাগা ও রিমঝিম আনন্দে ভরপুর।';
+
+    // 2. Hide Countdown and Show Main Content
     countdownContainer.style.display = 'none';
     birthdayContent.style.display = 'block';
 
-    // Check if the current time is within the first 15 minutes of the birthday
+    // Check for the 15-minute special event
     const now = new Date().getTime();
     const timeSinceTarget = now - targetDate.getTime();
 
@@ -267,25 +282,22 @@ function handleBirthdayStart() {
         // --- START 15-MINUTE SPECIAL EVENT ---
         isBigBlastActive = true;
         
-        // 1. Play Music Unmuted (if not already playing)
+        // Play Music Unmuted
         bgMusic.muted = false;
         bgMusic.play().catch(e => {
-             // If autoplay fails, prompt user to press play
              playMusicBtn.style.display = 'inline-block';
              playMusicBtn.innerText = "🔊 Play Celebration Music!";
         });
         toggleMute.innerText = '🔊'; // Update icon to show it's unmuted
 
-        // 2. Trigger Big Confetti Blast and increase interval
+        // Trigger Big Confetti Blast and increase heart rate
         triggerBigConfetti();
-        // Also ensure continuous hearts are fast during this time
         clearInterval(heartInterval);
         heartInterval = setInterval(spawnHeart, 400); // Faster hearts
 
-        // 3. Set a timer to revert after 15 minutes
+        // Set a timer to revert after 15 minutes
         setTimeout(() => {
             isBigBlastActive = false;
-            // Revert confetti/hearts to normal
             initializeLightConfetti();
             clearInterval(heartInterval);
             heartInterval = setInterval(spawnHeart, 800);
@@ -294,7 +306,7 @@ function handleBirthdayStart() {
         // --- END 15-MINUTE SPECIAL EVENT ---
 
     } else {
-        // If the time is past the 15-minute special event, start normally (muted play)
+        // If past the special time, start normally (muted play)
         bgMusic.muted = true;
         bgMusic.play().catch(e=>{
              playMusicBtn.style.display = 'inline-block';
@@ -302,6 +314,7 @@ function handleBirthdayStart() {
     }
 
     clearInterval(timerInterval); // Stop the countdown
+    musicControl.style.display='flex'; // Ensure music control shows up
 }
 
 
@@ -332,12 +345,12 @@ const timerInterval = setInterval(updateCountdown, 1000);
 
 /* ===============
    Send wish (save to Firestore)
-   =============== */
+   ================ */
 sendBtn.addEventListener('click', async ()=>{
   const r = recName.value.trim() || "Rimjhim";
   const m = recMsg.value.trim();
   if(!m){ alert("কিছু একটা মেসেজ লিখো তো!"); return; }
-  const p = ""; // Photo URL is removed
+  const p = ""; // Photo URL is now always empty
   const s = senderName.value.trim() || "Anonymous";
   const ph = phone.value.trim();
 
@@ -347,7 +360,7 @@ sendBtn.addEventListener('click', async ()=>{
     await db.collection('messages').add({
       recipient: r,
       text: m,
-      photoURL: p, // Photo URL will be empty
+      photoURL: p,
       sender: s,
       phone: ph || "",
       time: firebase.firestore.FieldValue.serverTimestamp()
@@ -358,7 +371,6 @@ sendBtn.addEventListener('click', async ()=>{
     // reset optional fields
     senderName.value = "";
     phone.value = "";
-    // Note: displayPhoto is not reset as it's not being changed by user input anymore
   }catch(err){
     alert("Error: " + err.message);
     sendBtn.disabled=false;
@@ -500,7 +512,6 @@ bgMusic.addEventListener('canplay', ()=>{
 bgMusic.volume = 0.6;
 bgMusic.muted = true;
 bgMusic.play().catch(e=>{
-  // autoplay blocked — show play button for user
   playMusicBtn.style.display = 'inline-block';
 });
 
@@ -508,8 +519,8 @@ playMusicBtn.addEventListener('click', ()=>{
   bgMusic.muted = false; 
   bgMusic.play(); 
   musicControl.style.display='flex';
-  playMusicBtn.style.display='none'; // Hide the big play button
-  toggleMute.innerText = '🔊'; // Unmuted
+  playMusicBtn.style.display='none'; 
+  toggleMute.innerText = '🔊'; 
 });
 
 // toggle mute/pause
