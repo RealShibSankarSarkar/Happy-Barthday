@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Rimjhim's Surprise Birthday 🎉</title> 
+  <title>Rimjhim's Surprise 🎉</title> 
   <!-- Title is now generic/surprise -->
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -113,14 +113,14 @@
   <!-- DYNAMIC HEADER: Text changes from "Surprise Loading..." to "Happy Birthday..." at 12 AM -->
   <div class="card header">
     <div>
-      <h1 id="dynamicTitle" class="title" style="animation:none;text-shadow:none;">Rimjhim-এর জন্য একটি উপহার</h1>
-      <p id="dynamicSubtitle" class="subtitle">আর মাত্র কয়েকটা মুহূর্ত...</p>
+      <h1 id="dynamicTitle" class="title" style="animation:none;text-shadow:none;">Rimjhim-এর জন্য একটি দারুণ চমক</h1>
+      <p id="dynamicSubtitle" class="subtitle">আর মাত্র একটু অপেক্ষা...</p>
     </div>
   </div>
 
   <!-- COUNTDOWN TIMER SECTION (Visible until Dec 16, 12 AM) -->
   <div id="countdownContainer" class="card" style="text-align:center;">
-      <h2 style="color:var(--accent);margin-top:0">জন্মদিনের ক্ষণ শুরু হতে বাকি</h2>
+      <h2 style="color:var(--accent);margin-top:0">সেই বিশেষ মুহূর্তটি শুরু হতে বাকি</h2>
       <div id="countdownDisplay" style="font-size:2rem;font-weight:700;color:var(--text);margin: 18px 0;">Loading Timer...</div>
       <p style="margin-bottom:0;font-size:1.1rem;font-weight:600">১৬ই ডিসেম্বর, ঠিক রাত ১২:০০ টায় ম্যাজিক শুরু হবে।</p>
   </div>
@@ -147,8 +147,9 @@
 
         <!-- music control visible on small area also -->
         <div style="margin-top:12px;text-align:center">
-          <button id="playMusicBtn" style="background:transparent;border:1px solid rgba(0,0,0,0.08);padding:8px;border-radius:10px;cursor:pointer">
-            ▶️ Play Music
+          <!-- This button is now only a fallback for unmuting if the main logic fails -->
+          <button id="playMusicBtn" style="background:transparent;border:1px solid rgba(0,0,0,0.08);padding:8px;border-radius:10px;cursor:pointer;display:none;">
+            ▶️ Unmute Music
           </button>
         </div>
       </div>
@@ -198,8 +199,7 @@
 
 <!-- Hidden audio -->
 <audio id="bgMusic" loop muted>
-  <!-- NOTE: Google Drive link used as requested. If it fails to play due to permission/format issues, replace with a direct .mp3 link. -->
-  <source src="https://drive.google.com/uc?export=download&id=1FR-lJt4pwAvpXEaHsddySce1IawR323O" type="audio/mpeg">
+  <source src="https://files.catbox.moe/lnkg6v.mp3" type="audio/mpeg">
 </audio>
 
 <!-- Firebase SDKs -->
@@ -265,7 +265,7 @@ if (urlParams.get('mode') === 'test') {
 
 function handleBirthdayStart() {
     // 1. Update the Main Header Text/Animation
-    dynamicTitle.innerText = 'Happy Birthday, Rimjhim';
+    dynamicTitle.innerText = 'Happy Birthday, Rimjhim'; // The actual reveal
     dynamicTitle.style.animation = 'neon 3s infinite';
     dynamicTitle.style.textShadow = '0 0 6px rgba(255,112,166,0.8)';
     dynamicSubtitle.innerText = 'আজকের দিনটা তোমার মতোই রঙিন — হাসি, ভালোলাগা ও রিমঝিম আনন্দে ভরপুর।';
@@ -273,21 +273,26 @@ function handleBirthdayStart() {
     // 2. Hide Countdown and Show Main Content
     countdownContainer.style.display = 'none';
     birthdayContent.style.display = 'block';
+    musicControl.style.display='flex'; // Ensure music control shows up
 
     // Check for the 15-minute special event
     const now = new Date().getTime();
     const timeSinceTarget = now - targetDate.getTime();
 
     if (timeSinceTarget >= 0 && timeSinceTarget <= specialEventDuration) {
-        // --- START 15-MINUTE SPECIAL EVENT ---
+        // --- START 15-MINUTE SPECIAL EVENT (UNMUTE & CONFETTI) ---
         isBigBlastActive = true;
         
-        // Play Music Unmuted
+        // Unmute and check if playing (it should be, from initial autoplay)
         bgMusic.muted = false;
-        bgMusic.play().catch(e => {
-             playMusicBtn.style.display = 'inline-block';
-             playMusicBtn.innerText = "🔊 Play Celebration Music!";
-        });
+        if(bgMusic.paused){
+            bgMusic.play().catch(e => {
+                // Should not happen if already muted-playing, but for safety
+                console.log("Failed to play unmuted after reveal:", e);
+                playMusicBtn.style.display = 'inline-block';
+                playMusicBtn.innerText = "🔊 Play Celebration Music!";
+            });
+        }
         toggleMute.innerText = '🔊'; // Update icon to show it's unmuted
 
         // Trigger Big Confetti Blast and increase heart rate
@@ -302,19 +307,22 @@ function handleBirthdayStart() {
             clearInterval(heartInterval);
             heartInterval = setInterval(spawnHeart, 800);
             
+            // Revert music to muted after 15 min if it's still unmuted
+            if(!bgMusic.muted){
+                bgMusic.muted = true;
+                toggleMute.innerText = '🔈';
+            }
+            
         }, specialEventDuration - timeSinceTarget); 
         // --- END 15-MINUTE SPECIAL EVENT ---
 
     } else {
-        // If past the special time, start normally (muted play)
-        bgMusic.muted = true;
-        bgMusic.play().catch(e=>{
-             playMusicBtn.style.display = 'inline-block';
-        });
+        // If past the special time, continue with muted play (already handled by initial logic)
+        // Ensure the toggle button is correct (default muted state)
+        toggleMute.innerText = '🔈';
     }
 
     clearInterval(timerInterval); // Stop the countdown
-    musicControl.style.display='flex'; // Ensure music control shows up
 }
 
 
@@ -342,6 +350,31 @@ function updateCountdown() {
 updateCountdown();
 const timerInterval = setInterval(updateCountdown, 1000);
 
+/* ===============
+   Initial Muted Autoplay
+   =============== */
+bgMusic.volume = 0.6;
+bgMusic.muted = true;
+bgMusic.play().catch(e=>{
+    // If even muted autoplay fails (strict policies), prompt user to click anywhere
+    playMusicBtn.style.display = 'inline-block';
+    playMusicBtn.innerText = "▶️ Play Music (Touch to enable)";
+    // Hide the countdown play button when music control bar is shown after any click
+    document.body.addEventListener('click', () => {
+        if(bgMusic.paused && playMusicBtn.style.display !== 'none'){
+            bgMusic.muted = false; // Try unmuted this time
+            bgMusic.play().catch(()=>{}); // If it fails, rely on the main controls
+            playMusicBtn.style.display = 'none';
+        }
+    }, {once: true});
+});
+// Hide the separate play button if it successfully starts
+bgMusic.addEventListener('play', () => { 
+    if(birthdayContent.style.display !== 'block'){
+        playMusicBtn.style.display = 'none'; 
+    }
+});
+
 
 /* ===============
    Send wish (save to Firestore)
@@ -350,7 +383,7 @@ sendBtn.addEventListener('click', async ()=>{
   const r = recName.value.trim() || "Rimjhim";
   const m = recMsg.value.trim();
   if(!m){ alert("কিছু একটা মেসেজ লিখো তো!"); return; }
-  const p = ""; // Photo URL is now always empty
+  const p = ""; 
   const s = senderName.value.trim() || "Anonymous";
   const ph = phone.value.trim();
 
@@ -494,34 +527,12 @@ function spawnHeart(){
 let heartInterval = setInterval(spawnHeart, 800); // Initial slower hearts
 
 /* ===============
-   Music controls
+   Music controls Toggle
    =============== */
 const bgMusic = document.getElementById('bgMusic');
 const musicControl = document.getElementById('musicControl');
 const toggleMute = document.getElementById('toggleMute');
 const playMusicBtn = document.getElementById('playMusicBtn');
-
-// show control if audio available
-bgMusic.addEventListener('canplay', ()=>{ 
-    if(birthdayContent.style.display !== 'none'){
-        musicControl.style.display='flex'; 
-    }
-});
-
-// Initial play attempt (muted for browser compatibility)
-bgMusic.volume = 0.6;
-bgMusic.muted = true;
-bgMusic.play().catch(e=>{
-  playMusicBtn.style.display = 'inline-block';
-});
-
-playMusicBtn.addEventListener('click', ()=>{
-  bgMusic.muted = false; 
-  bgMusic.play(); 
-  musicControl.style.display='flex';
-  playMusicBtn.style.display='none'; 
-  toggleMute.innerText = '🔊'; 
-});
 
 // toggle mute/pause
 toggleMute.addEventListener('click', ()=>{
