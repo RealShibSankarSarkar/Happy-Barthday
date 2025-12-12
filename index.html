@@ -1,483 +1,402 @@
 <!doctype html>
 <html lang="bn">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Rimjhim — Surprise</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Surprise</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-  <style>
-    :root{
-      --bg:#fbf6f2;
-      --card:#fff;
-      --accent:#ff7ca8;
-      --accent2:#b68bff;
-      --text:#2b2b2b;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:'Quicksand',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
-    .wrap{max-width:1100px;margin:22px auto;padding:20px}
+<style>
+/* ---------- THEME ---------- */
+:root{
+  --bg:#fbf6f2;
+  --card:#fff;
+  --accent:#ff7ca8;
+  --accent2:#b68bff;
+  --text:#2b2b2b;
+}
 
-    .card{background:var(--card);border-radius:18px;padding:22px;box-shadow:0 12px 30px rgba(0,0,0,0.06);border:1px solid rgba(0,0,0,0.04);margin-bottom:18px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg);
+  font-family:'Quicksand',sans-serif;
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+}
 
-    .title{font-family:'Pacifico',cursive;font-size:2.8rem;margin:0;color:var(--accent);text-align:center;animation:neon 3s infinite}
-    @keyframes neon{0%{text-shadow:0 0 6px rgba(255,112,166,0.6)}50%{text-shadow:0 0 22px rgba(255,112,166,0.9)}100%{text-shadow:0 0 6px rgba(255,112,166,0.6)}}
+.wrap{max-width:1100px;margin:20px auto;padding:20px}
 
-    /* countdown */
-    .count-big{font-size:1.9rem;font-weight:700;color:var(--text);text-align:center;margin-top:10px}
+/* ---------- CARDS ---------- */
+.card{
+  background:var(--card);
+  padding:22px;
+  border-radius:18px;
+  box-shadow:0 12px 30px rgba(0,0,0,0.06);
+  margin-bottom:18px;
+}
 
-    /* album */
-    .album-title{text-align:center;font-size:1.3rem;color:var(--accent);font-weight:700;margin-bottom:12px}
-    .album-scroll{display:flex;gap:18px;overflow-x:auto;padding-bottom:10px;scroll-snap-type:x mandatory}
-    .album-scroll::-webkit-scrollbar{display:none}
-    .polaroid{flex:0 0 180px;height:240px;background:#fff;padding:12px;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,0.08);transform:rotate(-4deg);transition:transform .28s,box-shadow .28s;scroll-snap-align:center;position:relative}
-    .polaroid:hover{transform:rotate(0deg) scale(1.06);box-shadow:0 20px 45px rgba(255,112,166,0.18)}
-    .polaroid img{width:100%;height:100%;object-fit:cover;border-radius:10px}
+/* ---------- TITLE ---------- */
+.title{
+  font-family:'Pacifico',cursive;
+  font-size:2.8rem;
+  text-align:center;
+  margin-bottom:10px;
+  color:var(--accent);
+  animation:neon 3s infinite;
+}
+@keyframes neon{
+  0%{text-shadow:0 0 6px rgba(255,112,166,0.4)}
+  50%{text-shadow:0 0 22px rgba(255,112,166,0.9)}
+  100%{text-shadow:0 0 6px rgba(255,112,166,0.4)}
+}
 
-    .scroll-hint{text-align:center;color:#888;margin-top:8px;font-size:0.86rem}
+/* ---------- COUNTDOWN ---------- */
+.count-big{
+  font-size:1.8rem;
+  font-weight:700;
+  margin-top:10px;
+}
 
-    /* wishes */
-    .wishes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
-    .wish-card{background:#fff;padding:14px;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,0.05);border:1px solid rgba(0,0,0,0.03)}
-    .wish-meta{font-size:12px;color:gray;margin-bottom:6px}
+/* ---------- ALBUM ---------- */
+.album-title{
+  text-align:center;
+  font-size:1.3rem;
+  color:var(--accent);
+  font-weight:700;
+  margin-bottom:12px;
+}
+.album-scroll{
+  display:flex;
+  gap:18px;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  padding-bottom:12px;
+}
+.album-scroll::-webkit-scrollbar{display:none}
+.polaroid{
+  flex:0 0 180px;
+  height:240px;
+  background:#fff;
+  padding:12px;
+  border-radius:14px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.08);
+  transform:rotate(-4deg);
+  transition:0.3s;
+  scroll-snap-align:center;
+}
+.polaroid:hover{
+  transform:rotate(0) scale(1.06);
+  box-shadow:0 20px 40px rgba(255,112,166,0.2);
+}
+.polaroid img{
+  width:100%;height:100%;object-fit:cover;border-radius:10px;
+}
+.scroll-hint{text-align:center;color:#888;margin-top:6px;font-size:0.85rem}
 
-    label{display:block;margin-top:10px;font-weight:600}
-    input,textarea{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(0,0,0,0.08);margin-top:8px;font-size:1rem;background:rgba(255,255,255,0.98)}
-    textarea{min-height:96px;resize:vertical}
-    .send-btn{margin-top:12px;padding:12px 18px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;font-weight:700;cursor:pointer;font-size:1rem;box-shadow:0 10px 24px rgba(255,112,166,0.12)}
+/* ---------- WISHES ---------- */
+.wishes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.wish-card{
+  background:#fff;
+  padding:14px;
+  border-radius:12px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.05);
+}
+label{font-weight:600;margin-top:12px;display:block}
+input,textarea{
+  width:100%;padding:10px;border-radius:10px;border:1px solid #ccc;margin-top:8px;font-size:1rem;
+}
+textarea{min-height:90px}
+.send-btn{
+  width:100%;margin-top:16px;
+  padding:12px;
+  border:none;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;font-weight:700;border-radius:12px;font-size:1rem;
+}
 
-    /* overlay start */
-    #startScreen{position:fixed;left:0;top:0;width:100%;height:100%;background:linear-gradient(180deg,rgba(10,10,10,0.75),rgba(10,10,10,0.6));z-index:999;display:flex;justify-content:center;align-items:center;flex-direction:column;color:white;padding:20px}
-    #startBtn{padding:14px 30px;border-radius:12px;border:none;background:linear-gradient(90deg,var(--accent),var(--accent2));font-weight:700;color:white;font-size:1.1rem;cursor:pointer}
+/* ---------- HEARTS ---------- */
+.hearts{
+  position:fixed;left:0;top:0;right:0;bottom:0;
+  pointer-events:none;
+  z-index:9;
+}
+.heart{
+  position:absolute;
+  width:18px;height:18px;
+  background:linear-gradient(45deg,#ff8ab8,#ffd47a);
+  transform:rotate(45deg);
+  border-radius:3px;
+  opacity:0.9;
+}
+.heart:before,.heart:after{
+  content:"";position:absolute;background:inherit;border-radius:50%;
+}
+.heart:before{width:18px;height:18px;top:-9px;left:0}
+.heart:after{width:18px;height:18px;left:-9px;top:0}
 
-    /* reveal hero */
-    #revealHero{display:none;text-align:center;margin-bottom:12px}
-    #revealHero h2{font-family:'Pacifico',cursive;font-size:2.6rem;color:var(--accent);margin:6px 0}
-    #revealHero p{color:#444;margin:6px 0;font-weight:600}
-
-    /* hearts */
-    .hearts{position:fixed;left:0;right:0;top:0;bottom:0;pointer-events:none;overflow:hidden;z-index:8}
-    .heart{position:absolute;width:18px;height:18px;background:linear-gradient(45deg,#ff8ab8,#ffd47a);transform:rotate(45deg);border-radius:3px;opacity:0.95}
-    .heart:before,.heart:after{content:"";position:absolute;background:inherit;border-radius:50%}
-    .heart:before{width:18px;height:18px;top:-9px;left:0}
-    .heart:after{width:18px;height:18px;left:-9px;top:0}
-
-    /* confetti canvas */
-    #confetti{position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:9}
-
-    @media(max-width:720px){
-      .polaroid{flex:0 0 150px;height:200px}
-      .title{font-size:2rem}
-    }
-  </style>
+/* ---------- CONFETTI ---------- */
+#confetti{
+  position:fixed;left:0;top:0;width:100%;height:100%;
+  pointer-events:none;z-index:8;
+}
+</style>
 </head>
 <body>
 
-<!-- Start overlay (user must tap to allow music) -->
-<div id="startScreen" aria-hidden="false">
-  <h1 style="font-family:'Pacifico',cursive;font-size:2.4rem;margin-bottom:12px">A Little Surprise</h1>
-  <p style="margin-bottom:18px;color:rgba(255,255,255,0.9)">Tap to unlock music & the surprise when the time comes.</p>
-  <button id="startBtn">Tap to Start 🎵</button>
-  <p style="margin-top:16px;color:rgba(255,255,255,0.8);font-size:0.9rem">(Use <code>?mode=test</code> in URL to test immediately)</p>
-</div>
-
-<!-- floating hearts container -->
-<div class="hearts" id="hearts"></div>
-
-<!-- confetti -->
-<canvas id="confetti"></canvas>
-
-<div class="wrap" id="mainWrap" style="opacity:0;transform:translateY(8px);transition:all .6s ease;">
-
-  <h1 class="title">Aesthetic Gallery</h1>
-
-  <!-- COUNTDOWN CARD -->
-  <div class="card" id="countCard" style="text-align:center">
-    <h2 style="color:var(--accent);margin:0">⏳ Something special is coming</h2>
-    <div id="countdownDisplay" class="count-big">Loading timer…</div>
-    <p style="color:gray;margin-top:6px;font-weight:600">16 ডিসেম্বর, রাত ১২:০০ (স্থানীয় সময়)।</p>
-  </div>
-
-  <!-- Reveal Hero (hidden until countdown ends) -->
-  <div id="revealHero" class="card">
-    <h2 id="heroName">Happy Birthday</h2>
-    <p id="heroSub">A special surprise just for you…</p>
-  </div>
-
-  <!-- Album + Form (hidden until reveal) -->
-  <div id="surpriseContent" style="display:none">
-    <div class="card">
-      <div class="album-title">✨ Sweet Memories ✨</div>
-      <div class="album-scroll" id="albumScroll">
-        <!-- replace or add image URLs as needed -->
-        <div class="polaroid"><img src="https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/cuttee.jpeg?raw=true" alt=""></div>
-        <div class="polaroid"><img src="https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/Rimjhim.png?raw=true" alt=""></div>
-        <div class="polaroid"><img src="https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/album.jpg?raw=true" alt=""></div>
-        <div class="polaroid"><img src="https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/eyes21.jpeg?raw=true" alt=""></div>
-      </div>
-      <p class="scroll-hint">⬅️ Scroll / Swipe to explore ➡️</p>
-    </div>
-
-    <div class="card">
-      <h3 style="color:var(--accent);margin:0 0 8px 0">Send a Wish 💌</h3>
-
-      <label for="recName">Recipient</label>
-      <input id="recName" value="Rimjhim">
-
-      <label for="recMsg">Message</label>
-      <textarea id="recMsg">🌸 Rimjhim — তোমাকে অনেক শুভেচ্ছা। Happy Birthday! 💛</textarea>
-
-      <label for="senderName">Your Name</label>
-      <input id="senderName" placeholder="Optional">
-
-      <label for="phone">Phone (optional)</label>
-      <input id="phone" placeholder="01XXXXXXXXX">
-
-      <button id="sendBtn" class="send-btn">Send Wish 💖</button>
-    </div>
-
-    <div class="card">
-      <h3 style="color:var(--accent);margin:0 0 8px 0">All Wishes ✨</h3>
-      <div id="wishesGrid" class="wishes-grid"></div>
-    </div>
-  </div>
-
-</div>
-
-<!-- Background audio (hidden controls) -->
+<!-- AUTO-MUSIC (hidden audio) -->
 <audio id="bgMusic" loop>
   <source src="https://files.catbox.moe/lnkg6v.mp3" type="audio/mpeg">
 </audio>
 
-<!-- Firebase SDKs -->
+<!-- Hearts + Confetti -->
+<div id="hearts" class="hearts"></div>
+<canvas id="confetti"></canvas>
+
+<div class="wrap" id="mainWrap">
+
+  <h1 class="title">Aesthetic Collection</h1>
+
+  <!-- COUNTDOWN -->
+  <div class="card" id="countCard">
+    <h2 style="text-align:center;color:var(--accent)">⏳ Something special is coming</h2>
+    <div id="countdownDisplay" class="count-big" style="text-align:center">Loading…</div>
+    <p style="text-align:center;margin-top:8px;color:#777">16 ডিসেম্বর রাত ১২:০০</p>
+  </div>
+
+  <!-- REVEAL HERO -->
+  <div class="card" id="heroBox" style="display:none;text-align:center">
+    <h2 style="font-family:'Pacifico',cursive;color:var(--accent);font-size:2.4rem">Happy Birthday, Rimjhim! 🎉</h2>
+    <p style="margin-top:8px;font-weight:600">A special surprise just for you…</p>
+  </div>
+
+  <!-- BIRTHDAY CONTENT -->
+  <div id="surpriseContent" style="display:none">
+
+    <!-- Album -->
+    <div class="card">
+      <div class="album-title">✨ Sweet Memories ✨</div>
+      <div class="album-scroll" id="albumScroll">
+        <div class="polaroid"><img src="https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/cuttee.jpeg?raw=true"></div>
+        <div class="polaroid"><img src="https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/Rimjhim.png?raw=true"></div>
+        <div class="polaroid"><img src="https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/album.jpg?raw=true"></div>
+        <div class="polaroid"><img src="https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/eyes21.jpeg?raw=true"></div>
+      </div>
+      <p class="scroll-hint">⬅️ Scroll / Swipe ➡️</p>
+    </div>
+
+    <!-- Wish Form -->
+    <div class="card">
+      <h3 style="color:var(--accent);margin-bottom:10px">Send a Wish 💌</h3>
+
+      <label>Recipient</label>
+      <input id="recName" value="Rimjhim">
+
+      <label>Message</label>
+      <textarea id="recMsg">🌸 Rimjhim — Happy Birthday! 💛</textarea>
+
+      <label>Your Name</label>
+      <input id="senderName">
+
+      <label>Phone (optional)</label>
+      <input id="phone">
+
+      <button class="send-btn" id="sendBtn">Send Wish 💖</button>
+    </div>
+
+    <!-- Wish List -->
+    <div class="card">
+      <h3 style="color:var(--accent);margin-bottom:10px">All Wishes ✨</h3>
+      <div id="wishesGrid" class="wishes-grid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
 <script>
-/* ======================
-   CONFIG
-   ====================== */
-const firebaseConfig = {
-  apiKey: "AIzaSyBZA9tXy6D1nyR_zyWaKiq95F5sbGjWttk",
-  authDomain: "girls-b8e77.firebaseapp.com",
-  projectId: "girls-b8e77",
-  storageBucket: "girls-b8e77.firebasestorage.app",
-  messagingSenderId: "241187517416",
-  appId: "1:241187517416:web:f7547d41aa147d1e52ea5d"
+/* ---------- FIREBASE CONFIG ---------- */
+const firebaseConfig={
+  apiKey:"AIzaSyBZA9tXy6D1nyR_zyWaKiq95F5sbGjWttk",
+  authDomain:"girls-b8e77.firebaseapp.com",
+  projectId:"girls-b8e77",
+  storageBucket:"girls-b8e77.firebasestorage.app",
+  messagingSenderId:"241187517416",
+  appId:"1:241187517416:web:f7547d41aa147d1e52ea5d"
 };
 firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+const db=firebase.firestore();
 
-/* ======================
-   UI REFS
-   ====================== */
-const startScreen = document.getElementById('startScreen');
-const startBtn = document.getElementById('startBtn');
-const bgMusic = document.getElementById('bgMusic');
-const mainWrap = document.getElementById('mainWrap');
-const countdownDisplay = document.getElementById('countdownDisplay');
-const countCard = document.getElementById('countCard');
-const revealHero = document.getElementById('revealHero');
-const heroName = document.getElementById('heroName');
-const heroSub = document.getElementById('heroSub');
-const surpriseContent = document.getElementById('surpriseContent');
-const heartsContainer = document.getElementById('hearts');
-const confettiCanvas = document.getElementById('confetti');
+/* ---------- AUTO MUSIC ---------- */
+const music=document.getElementById("bgMusic");
+music.volume=0.6;
 
-const sendBtn = document.getElementById('sendBtn');
-const recName = document.getElementById('recName');
-const recMsg = document.getElementById('recMsg');
-const senderName = document.getElementById('senderName');
-const phone = document.getElementById('phone');
-const wishesGrid = document.getElementById('wishesGrid');
+function autoPlay(){
+  music.play().then(()=>{
+    document.removeEventListener("click",autoPlay);
+    document.removeEventListener("touchstart",autoPlay);
+    document.removeEventListener("scroll",autoPlay);
+  }).catch(()=>{});
+}
+document.addEventListener("click",autoPlay);
+document.addEventListener("touchstart",autoPlay);
+document.addEventListener("scroll",autoPlay);
 
-/* ======================
-   Timer / Mode handling
-   ====================== */
-// global timer reference so we can clear it
-let timerInterval = null;
+/* ---------- COUNTDOWN ---------- */
+const cd=document.getElementById("countdownDisplay");
+const url=new URL(window.location.href);
+const test=url.searchParams.get("mode")==="test";
 
-// target: 16 December of current year at 00:00 (local)
-const urlParams = new URLSearchParams(window.location.search);
-const testMode = urlParams.get('mode') === 'test';
+// Target: 16 Dec
+let now=new Date();
+let y=now.getFullYear();
+let target=new Date(`${y}-12-16T00:00:00`);
 
-const now = new Date();
-const year = now.getFullYear();
-let targetDate = new Date(`${year}-12-16T00:00:00`);
-if(testMode){
-  targetDate = new Date(Date.now() + 10000); // +10s for testing
-  console.log('TEST MODE - target in 10s');
+if(test){
+  target=new Date(Date.now()+10000);
 }
 
-/* Helper to format remaining time */
-function updateCountdownDisplay() {
-  const now = new Date().getTime();
-  const distance = targetDate.getTime() - now;
+let timerInterval=setInterval(updateCountdown,1000);
+updateCountdown();
 
-  if(distance <= 0){
-    countdownDisplay.innerText = "00 দিন : 00 ঘন্টা : 00 মিনিট : 00 সেকেন্ড";
-    // stop timer and reveal
+function updateCountdown(){
+  const now=new Date();
+  const diff=target-now;
+  if(diff<=0){
     clearInterval(timerInterval);
-    setTimeout(()=>revealBirthday(true), 700); // small delay
+    revealBirthday();
     return;
   }
 
-  const days = Math.floor(distance/(1000*60*60*24));
-  const hours = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
-  const minutes = Math.floor((distance%(1000*60*60))/(1000*60));
-  const seconds = Math.floor((distance%(1000*60))/1000);
+  const d=Math.floor(diff/(1000*60*60*24));
+  const h=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+  const m=Math.floor((diff%(1000*60*60))/(1000*60));
+  const s=Math.floor((diff%(1000*60))/1000);
 
-  countdownDisplay.innerText = `${pad(days)} দিন : ${pad(hours)} ঘন্টা : ${pad(minutes)} মিনিট : ${pad(seconds)} সেকেন্ড`;
+  cd.innerText=`${pad(d)} দিন : ${pad(h)} ঘন্টা : ${pad(m)} মিনিট : ${pad(s)} সেকেন্ড`;
 }
-function pad(n){ return String(n).padStart(2,'0'); }
+function pad(n){return String(n).padStart(2,'0')}
 
-/* Start countdown (called after user taps Start) */
-function startCountdownTimer(){
-  updateCountdownDisplay();
-  timerInterval = setInterval(updateCountdownDisplay, 1000);
-}
+/* ---------- BIRTHDAY REVEAL ---------- */
+function revealBirthday(){
+  // Hide countdown, show hero + content
+  document.getElementById("countCard").style.display="none";
+  document.getElementById("heroBox").style.display="block";
+  document.getElementById("surpriseContent").style.display="block";
 
-/* ======================
-   Start button (music & reveal readiness)
-   ====================== */
-startBtn.addEventListener('click', ()=> {
-  // reveal page UI
-  startScreen.style.display = 'none';
-  mainWrap.style.opacity = 1;
-  mainWrap.style.transform = 'translateY(0)';
+  // Confetti + hearts blast
+  bigConfetti();
+  heartInterval=setInterval(spawnHeart,400);
 
-  // try play music (user gesture allows it)
-  bgMusic.volume = 0.6;
-  bgMusic.play().catch(e=>{ console.warn('play failed', e); });
-
-  // begin countdown
-  startCountdownTimer();
-});
-
-/* If target time already passed (e.g., you opened after 16 Dec), reveal immediately */
-if(targetDate.getTime() <= Date.now()){
-  // hide overlay so user can start music manually
-  startScreen.style.display = 'none';
-  mainWrap.style.opacity = 1;
-  mainWrap.style.transform = 'translateY(0)';
-  // reveal directly (but keep music muted until user taps)
-  revealBirthday(false);
+  // Unmute music if needed
+  music.muted=false;
+  music.play().catch(()=>{});
 }
 
-/* ======================
-   Reveal function: show surprise UI + animations
-   ====================== */
-let bigBlastActive = false;
+/* ---------- WISH FORM ---------- */
+sendBtn.onclick=async()=>{
+  const msg=recMsg.value.trim();
+  if(!msg){alert("মেসেজ লিখো!");return;}
 
-function revealBirthday(autoUnmute){
-  // hide countdown card, show hero + surprise content
-  countCard.style.display = 'none';
-  revealHero.style.display = 'block';
-  surpriseContent.style.display = 'block';
+  await db.collection("messages").add({
+    sender:senderName.value.trim()||"Anonymous",
+    recipient:recName.value.trim()||"Rimjhim",
+    text:msg,
+    phone:phone.value.trim()||"",
+    time:firebase.firestore.FieldValue.serverTimestamp()
+  });
 
-  // set personalized name
-  heroName.innerText = 'Happy Birthday, Rimjhim!';
-  heroSub.innerText = '🎉 আজকের দিনটা তোমার জন্য — উপভোগ করো!';
+  recMsg.value="";
+  senderName.value="";
+  phone.value="";
+};
 
-  // music behaviour
-  if(autoUnmute){
-    bgMusic.muted = false;
-    if(bgMusic.paused) bgMusic.play().catch(()=>{});
-  } else {
-    // if not autoUnmute, keep music ready but muted until user interacts
-    bgMusic.muted = true;
-    if(bgMusic.paused) bgMusic.play().catch(()=>{});
-  }
-
-  // flash hero animation
-  revealHero.animate([
-    {transform:'scale(0.96)',opacity:0},
-    {transform:'scale(1.02)',opacity:1},
-    {transform:'scale(1)',opacity:1}
-  ],{duration:900,easing:'cubic-bezier(.2,.9,.3,1)'});
-
-  // start confetti + hearts
-  triggerBigConfetti();
-  bigBlastActive = true;
-  heartInterval = setInterval(spawnHeart, 420);
-
-  // after 15 minutes (special window) reduce to light confetti and normal hearts
-  const specialWindow = 15 * 60 * 1000;
-  setTimeout(()=> {
-    bigBlastActive = false;
-    initializeLightConfetti();
-    clearInterval(heartInterval);
-    heartInterval = setInterval(spawnHeart, 800);
-    // mute music politely if it's playing
-    try{ bgMusic.muted = true; }catch(e){}
-  }, specialWindow);
-}
-
-/* ======================
-   Firestore: send + realtime listener
-   ====================== */
-sendBtn.addEventListener('click', async ()=>{
-  const message = recMsg.value.trim();
-  if(!message){ alert('মেসেজ লিখো!'); return; }
-
-  sendBtn.disabled = true;
-  sendBtn.innerText = 'Sending...';
-
-  try{
-    await db.collection('messages').add({
-      recipient: recName.value.trim() || 'Rimjhim',
-      text: message,
-      sender: senderName.value.trim() || 'Anonymous',
-      phone: phone.value.trim() || '',
-      time: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    sendBtn.innerText = 'Sent! 🎉';
-    setTimeout(()=>{ sendBtn.disabled=false; sendBtn.innerText='Send Wish 💖' },1200);
-    recMsg.value = '';
-    senderName.value = '';
-    phone.value = '';
-  }catch(err){
-    alert('Error: ' + err.message);
-    sendBtn.disabled = false;
-    sendBtn.innerText = 'Send Wish 💖';
-  }
-});
-
-/* Realtime load wishes */
-db.collection('messages').orderBy('time','desc').onSnapshot(snapshot=>{
-  wishesGrid.innerHTML = '';
-  snapshot.forEach(doc=>{
-    const d = doc.data();
-    const when = d.time ? (d.time.toDate ? d.time.toDate().toLocaleString('bn-BD') : new Date(d.time.seconds*1000).toLocaleString('bn-BD')) : '—';
-    const card = document.createElement('div');
-    card.className = 'wish-card';
-    card.innerHTML = `
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div style="font-weight:700;color:var(--accent)">${escapeHtml(d.sender||'Anonymous')}</div>
-        <div style="font-size:12px;color:gray">${escapeHtml(when)}</div>
+/* ---------- REALTIME WISHES ---------- */
+db.collection("messages").orderBy("time","desc").onSnapshot(snap=>{
+  wishesGrid.innerHTML="";
+  snap.forEach(doc=>{
+    const d=doc.data();
+    const t=d.time?d.time.toDate().toLocaleString("bn-BD"):"—";
+    wishesGrid.innerHTML+=`
+      <div class="wish-card">
+        <div style="color:var(--accent);font-weight:700">${escape(d.sender)}</div>
+        <div class="wish-meta">${escape(t)}</div>
+        <div>${escape(d.text)}</div>
+        ${d.phone?`<div style="margin-top:6px;font-size:13px;color:gray">📞 ${escape(d.phone)}</div>`:""}
       </div>
-      <div class="wish-meta">${escapeHtml(d.recipient||'Rimjhim')}</div>
-      <div style="white-space:pre-wrap;margin-top:6px">${escapeHtml(d.text||'')}</div>
-      ${d.phone? `<div style="margin-top:8px;font-size:13px;color:gray">📞 ${escapeHtml(d.phone)}</div>` : ''}
     `;
-    wishesGrid.appendChild(card);
   });
 });
+function escape(s){return String(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
 
-/* escape helper to avoid XSS */
-function escapeHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,"&#039;"); }
+/* ---------- CONFETTI ---------- */
+const conf=document.getElementById("confetti");
+const ctx=conf.getContext("2d");
+function resize(){conf.width=innerWidth;conf.height=innerHeight;}
+window.onresize=resize;resize();
 
-/* ======================
-   Confetti Canvas (light + big)
-   ====================== */
-const conf = confettiCanvas;
-const ctx = conf.getContext('2d');
-
-function resizeCanvas(){ conf.width = innerWidth; conf.height = innerHeight; }
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
-
-let confetti = [];
-function initializeLightConfetti(){
-  confetti = [];
-  for(let i=0;i<120;i++){
-    confetti.push({x:Math.random()*conf.width,y:Math.random()*conf.height,s:Math.random()*6+4,r:Math.random()*360,v:Math.random()*1.5+0.5,c:`hsl(${Math.random()*360},80%,60%)`});
+let confetti=[];
+function bigConfetti(){
+  confetti=[];
+  for(let i=0;i<600;i++){
+    confetti.push({
+      x:Math.random()*conf.width,
+      y:Math.random()*-conf.height,
+      s:Math.random()*8+6,
+      r:Math.random()*360,
+      v:Math.random()*3+1.5,
+      c:`hsl(${Math.random()*360},80%,60%)`
+    });
   }
 }
-initializeLightConfetti();
 
-function drawConfetti(){
+function draw(){
   ctx.clearRect(0,0,conf.width,conf.height);
   confetti.forEach(p=>{
     ctx.save();
     ctx.translate(p.x,p.y);
     ctx.rotate(p.r*Math.PI/180);
-    ctx.fillStyle = p.c;
+    ctx.fillStyle=p.c;
     ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*0.6);
     ctx.restore();
-    p.y += p.v;
-    p.r += 2;
-    if(p.y > conf.height + 40){
-      if(bigBlastActive){
-        p.y = -20; p.x = Math.random()*conf.width;
-        p.v = Math.random()*3+1.5;
-      } else {
-        p.y = Math.random() * -conf.height;
-        p.x = Math.random()*conf.width;
-        p.v = Math.random()*1.5+0.2;
-      }
+    p.y+=p.v; p.r+=2;
+    if(p.y>conf.height+40){
+      p.y=-20; p.x=Math.random()*conf.width;
     }
   });
-  requestAnimationFrame(drawConfetti);
+  requestAnimationFrame(draw);
 }
-drawConfetti();
+draw();
 
-function triggerBigConfetti(){
-  confetti = [];
-  for(let i=0;i<600;i++){
-    confetti.push({x:Math.random()*conf.width,y:Math.random()*-conf.height,s:Math.random()*8+6,r:Math.random()*360,v:Math.random()*3+1.5,c:`hsl(${Math.random()*360},80%,60%)`});
-  }
-}
-
-/* ======================
-   Floating hearts
-   ====================== */
+/* ---------- HEARTS ---------- */
+const hearts=document.getElementById("hearts");
 function spawnHeart(){
-  const h = document.createElement('div');
-  h.className = 'heart';
-  const size = Math.random()*20 + 12;
-  h.style.width = h.style.height = size + 'px';
-  h.style.left = Math.random()*100 + '%';
-  h.style.top = (90 + Math.random()*8) + '%';
-  h.style.opacity = (Math.random()*0.6 + 0.4);
-  heartsContainer.appendChild(h);
-  const duration = (bigBlastActive? 3000:6000) + Math.random()*3000;
-  h.animate([{transform:'translateY(0) scale(1)', opacity:h.style.opacity},{transform:'translateY(-90vh) scale(1.2)', opacity:0}],{duration:duration,easing:'linear'});
-  setTimeout(()=>h.remove(), duration+80);
+  const h=document.createElement("div");
+  h.className="heart";
+  const size=Math.random()*18+12;
+  h.style.width=h.style.height=size+"px";
+  h.style.left=Math.random()*100+"%";
+  h.style.top="95%";
+  hearts.appendChild(h);
+  h.animate([
+    {transform:"translateY(0) scale(1)",opacity:1},
+    {transform:"translateY(-90vh) scale(1.3)",opacity:0}
+  ],{duration:6000,easing:"linear"});
+  setTimeout(()=>h.remove(),6000);
 }
-let heartInterval = setInterval(spawnHeart, 800);
+let heartInterval;
 
-/* ======================
-   Auto-scroll album slight animation
-   ====================== */
-const albumScroll = document.getElementById('albumScroll');
-let autoScrollInterval = null;
-function startAutoScroll(){
-  if(!albumScroll) return;
-  let pos = 0; let dir = 1;
-  autoScrollInterval = setInterval(()=>{
-    pos += dir * 1.2;
-    if(pos > albumScroll.scrollWidth - albumScroll.clientWidth - 10){ dir = -1; }
-    if(pos < 0){ dir = 1; }
-    albumScroll.scrollTo({left: pos, behavior: 'smooth'});
-  }, 160);
-}
-function stopAutoScroll(){ clearInterval(autoScrollInterval); }
-
-/* start small auto scroll when revealed */
-albumScroll.addEventListener('mouseenter', ()=> stopAutoScroll());
-albumScroll.addEventListener('mouseleave', ()=> startAutoScroll());
-
-/* ======================
-   If URL has ?mode=test then start overlay and auto-click start (for quick testing)
-   ====================== */
-if(testMode){
-  // auto-tap start after 350ms so page transitions show nicely
-  setTimeout(()=>{ startBtn.click(); }, 350);
-}
-
-/* ======================
-   Small accessibility: allow pressing Enter on start
-   ====================== */
-startBtn.addEventListener('keyup', (e)=>{ if(e.key==='Enter') startBtn.click(); });
-
-/* When revealBirthday is triggered, start auto scroll */
-const origReveal = revealBirthday;
-revealBirthday = function(autoUnmute){
-  origReveal(autoUnmute);
-  startAutoScroll();
-};
+/* ---------- AUTO SCROLL ALBUM ---------- */
+const albumScroll=document.getElementById("albumScroll");
+let autoScrollPos=0,autoScrollDir=1;
+setInterval(()=>{
+  autoScrollPos+=autoScrollDir*1.3;
+  if(autoScrollPos>albumScroll.scrollWidth-albumScroll.clientWidth-10){autoScrollDir=-1}
+  if(autoScrollPos<0){autoScrollDir=1}
+  albumScroll.scrollTo({left:autoScrollPos,behavior:"smooth"});
+},150);
 </script>
 </body>
 </html>
