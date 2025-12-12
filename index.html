@@ -57,12 +57,6 @@
       100%{transform:scale(1)}
     }
 
-    /* eyes section */
-    .eyes-grid{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:14px}
-    .eye-card{width:140px;background:linear-gradient(180deg, #fff, #fff);border-radius:12px;padding:8px;text-align:center;
-      box-shadow:0 8px 20px rgba(0,0,0,0.06);border:1px solid rgba(0,0,0,0.04)}
-    .eye-img{width:120px;height:80px;object-fit:cover;border-radius:8px;display:block;margin:0 auto}
-
     /* shayari box */
     .shayari{background:linear-gradient(180deg, #fff, #fff);padding:16px;border-radius:12px;margin-bottom:12px;line-height:1.7;border-left:6px solid var(--accent);box-shadow:0 8px 20px rgba(0,0,0,0.04)}
 
@@ -122,73 +116,75 @@
     </div>
   </div>
 
-  <div class="top-row">
-    <div class="left card">
-      <div class="hero-wrap">
-        <img id="displayPhoto" class="hero" alt="Rimjhim" 
-             src="https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/Rimjhim.png?raw=true">
-      </div>
+  <!-- COUNTDOWN TIMER SECTION (Visible until Dec 16, 12 AM) -->
+  <div id="countdownContainer" class="card" style="text-align:center;">
+      <h2 style="color:var(--accent);margin-top:0">🎉 Rimjhim-এর জন্মদিন আসছে! 🎉</h2>
+      <div id="countdownDisplay" style="font-size:2rem;font-weight:700;color:var(--text);margin: 18px 0;">Loading Timer...</div>
+      <p style="margin-bottom:0;font-size:1.1rem;font-weight:600">১৬ই ডিসেম্বর, ঠিক রাত ১২:০০ টায় এই পেজটি উন্মুক্ত হবে।</p>
+  </div>
+  <!-- END COUNTDOWN TIMER SECTION -->
 
-      <!-- eyes section -->
-      <div style="margin-top:14px;text-align:center">
-        <h3 style="margin:0 0 8px 0;color:var(--accent);font-weight:700">Lovely Eyes</h3>
-        <div class="eyes-grid" id="eyesGrid">
-          <!-- eye cards injected by JS -->
+  <!-- BIRTHDAY CONTENT (Hidden until countdown finishes) -->
+  <div id="birthdayContent" style="display:none;">
+    <div class="top-row">
+      <div class="left card">
+        <div class="hero-wrap">
+          <!-- Main Hero Image (only one image) -->
+          <img id="displayPhoto" class="hero" alt="Rimjhim" 
+              src="https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/Rimjhim.png?raw=true">
+        </div>
+
+        <!-- small shayari -->
+        <div class="shayari" style="margin-top:18px">
+          <strong style="display:block;margin-bottom:8px;color:var(--accent)">A special wish for you</strong>
+          <div style="white-space:pre-wrap">
+            তোমার চোখে স্বপ্ন, তোমার হাসিতে আলো —  
+            আজকের দিন হোক শুধু তোমার খুশির পালা।
+          </div>
+        </div>
+
+        <!-- music control visible on small area also -->
+        <div style="margin-top:12px;text-align:center">
+          <button id="playMusicBtn" style="background:transparent;border:1px solid rgba(0,0,0,0.08);padding:8px;border-radius:10px;cursor:pointer">
+            ▶️ Play Music
+          </button>
         </div>
       </div>
 
-      <!-- small shayari -->
-      <div class="shayari" style="margin-top:18px">
-        <strong style="display:block;margin-bottom:8px;color:var(--accent)">A special wish for you</strong>
-        <div style="white-space:pre-wrap">
-          তোমার চোখে স্বপ্ন, তোমার হাসিতে আলো —  
-          আজকের দিন হোক শুধু তোমার খুশির পালা।
-        </div>
-      </div>
+      <div class="right card">
+        <!-- send wish form -->
+        <h3 style="margin-top:0;color:var(--accent)">Send your sweet wish</h3>
 
-      <!-- music control visible on small area also -->
-      <div style="margin-top:12px;text-align:center">
-        <button id="playMusicBtn" style="background:transparent;border:1px solid rgba(0,0,0,0.08);padding:8px;border-radius:10px;cursor:pointer">
-          ▶️ Play Music
-        </button>
+        <label for="recName">Recipient Name</label>
+        <input id="recName" value="Rimjhim">
+
+        <label for="recMsg">Your Message / Shayari</label>
+        <textarea id="recMsg">🌸 রিমঝিম — তোমার হাসি যেন সারা দিন জোয়ারে ভাসে। Happy Birthday! 💖</textarea>
+
+        <div class="row">
+          <div class="col" style="flex:0 0 160px">
+            <!-- Photo URL field removed as requested -->
+            <label for="phone">Phone (optional)</label>
+            <input id="phone" placeholder="01XXXXXXXXX">
+          </div>
+        </div>
+
+        <label for="senderName">Your Name</label>
+        <input id="senderName" placeholder="Your name (optional)">
+
+        <button id="sendBtn" class="send-btn">Send Sweet Wish! 💖</button>
+
+        <!-- wishes feed -->
+        <h4 style="margin-top:18px;color:var(--accent);">All Wishes</h4>
+        <div id="wishesGrid" class="wishes-grid"></div>
       </div>
     </div>
 
-    <div class="right card">
-      <!-- send wish form -->
-      <h3 style="margin-top:0;color:var(--accent)">Send your sweet wish</h3>
-
-      <label for="recName">Recipient Name</label>
-      <input id="recName" value="Rimjhim">
-
-      <label for="recMsg">Your Message / Shayari</label>
-      <textarea id="recMsg">🌸 রিমঝিম — তোমার হাসি যেন সারা দিন জোয়ারে ভাসে। Happy Birthday! 💖</textarea>
-
-      <div class="row">
-        <div class="col">
-          <label for="recPhoto">Photo URL (optional)</label>
-          <input id="recPhoto" placeholder="Paste an image URL to show with your wish">
-        </div>
-        <div class="col" style="flex:0 0 160px">
-          <label for="phone">Phone (optional)</label>
-          <input id="phone" placeholder="01XXXXXXXXX">
-        </div>
-      </div>
-
-      <label for="senderName">Your Name</label>
-      <input id="senderName" placeholder="Your name (optional)">
-
-      <button id="sendBtn" class="send-btn">Send Sweet Wish! 💖</button>
-
-      <!-- wishes feed -->
-      <h4 style="margin-top:18px;color:var(--accent);">All Wishes</h4>
-      <div id="wishesGrid" class="wishes-grid"></div>
+    <div style="text-align:center;margin-top:6px;color:gray;font-size:13px">
+      Designed with ❤️ by your friend Shib Sankar Sarkar
     </div>
   </div>
-
-  <div style="text-align:center;margin-top:6px;color:gray;font-size:13px">
-    Designed with ❤️ by your friend Shib Sankar Sarkar
-  </div>
+  <!-- END BIRTHDAY CONTENT -->
 
 </div>
 
@@ -198,11 +194,14 @@
   <div style="font-size:13px;color:var(--text)">Soft Music</div>
 </div>
 
-<!-- Hidden audio (replace MUSIC_URL_HERE with your file if you want full sound) -->
+<!-- Hidden audio -->
 <audio id="bgMusic" loop muted>
-  <!-- Example: You can replace src with a real mp3 file URL -->
-  <source src="MUSIC_URL_HERE" type="audio/mpeg">
-  <!-- If you don't have a music file, browser will keep it silent -->
+  <!-- 
+  মনোযোগ: গুগল ড্রাইভ লিঙ্কটি সরাসরি ব্রাউজারে নাও চলতে পারে।
+  যদি না চলে, তবে এই src-কে একটি সরাসরি .mp3 ফাইলের লিঙ্কের সাথে প্রতিস্থাপন করুন।
+  নিচে গুগল ড্রাইভের ডাউনলোডের প্রচেষ্টা করা হয়েছে: 
+  -->
+  <source src="https://drive.google.com/uc?export=download&id=1FR-lJt4pwAvpXEaHsddySce1IawR323O" type="audio/mpeg">
 </audio>
 
 <!-- Firebase SDKs -->
@@ -231,45 +230,105 @@ const auth = firebase.auth();
    UI Refs
    ======================== */
 const displayPhoto = document.getElementById('displayPhoto');
-const recPhoto = document.getElementById('recPhoto');
+// const recPhoto = document.getElementById('recPhoto'); // REMOVED
 const sendBtn = document.getElementById('sendBtn');
 const recName = document.getElementById('recName');
 const recMsg = document.getElementById('recMsg');
 const senderName = document.getElementById('senderName');
 const phone = document.getElementById('phone');
 const wishesGrid = document.getElementById('wishesGrid');
-const eyesGrid = document.getElementById('eyesGrid');
+
+// NEW UI Refs for Countdown
+const countdownContainer = document.getElementById('countdownContainer');
+const countdownDisplay = document.getElementById('countdownDisplay');
+const birthdayContent = document.getElementById('birthdayContent');
+
+let isBigBlastActive = false; // Flag for 15-minute animation/music
 
 /* ===============
-   Eyes images
+   Countdown Timer Logic
    =============== */
-/* You provided eyes image(s) earlier; we'll show multiple slots.
-   If you have only one eyes URL, it will be used on both slots.
-   Replace/add more URLs here if you want.
-*/
-const eyesUrls = [
-  "https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/eyes21.jpeg?raw=true",
-  "https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/eyes21.jpeg?raw=true"
-];
 
-// render eye cards
-function renderEyes(){
-  eyesGrid.innerHTML = '';
-  eyesUrls.forEach((u, i)=>{
-    const c = document.createElement('div'); c.className='eye-card';
-    c.innerHTML = `<img class="eye-img" src="${escapeHtml(u)}" alt="eyes ${i+1}"><div style="margin-top:8px;font-size:13px;color:var(--text)">Eye ${i+1}</div>`;
-    eyesGrid.appendChild(c);
-  });
+// Target date: December 16th, 12:00 AM (00:00:00) of the current year
+const currentYear = new Date().getFullYear();
+// Month is 0-indexed (11 = December). 16th day, 0 hour, 0 minute, 0 second.
+let targetDate = new Date(currentYear, 11, 16, 0, 0, 0); 
+const specialEventDuration = 15 * 60 * 1000; // 15 minutes in milliseconds
+
+function handleBirthdayStart() {
+    countdownContainer.style.display = 'none';
+    birthdayContent.style.display = 'block';
+
+    // Check if the current time is within the first 15 minutes of the birthday
+    const now = new Date().getTime();
+    const timeSinceTarget = now - targetDate.getTime();
+
+    if (timeSinceTarget >= 0 && timeSinceTarget <= specialEventDuration) {
+        // --- START 15-MINUTE SPECIAL EVENT ---
+        isBigBlastActive = true;
+        
+        // 1. Play Music Unmuted (if not already playing)
+        bgMusic.muted = false;
+        bgMusic.play().catch(e => {
+             // If autoplay fails, prompt user to press play
+             playMusicBtn.style.display = 'inline-block';
+             playMusicBtn.innerText = "🔊 Play Celebration Music!";
+        });
+        toggleMute.innerText = '🔊'; // Update icon to show it's unmuted
+
+        // 2. Trigger Big Confetti Blast and increase interval
+        triggerBigConfetti();
+        // Also ensure continuous hearts are fast during this time
+        clearInterval(heartInterval);
+        heartInterval = setInterval(spawnHeart, 400); // Faster hearts
+
+        // 3. Set a timer to revert after 15 minutes
+        setTimeout(() => {
+            isBigBlastActive = false;
+            // Revert confetti/hearts to normal
+            initializeLightConfetti();
+            clearInterval(heartInterval);
+            heartInterval = setInterval(spawnHeart, 800);
+            
+        }, specialEventDuration - timeSinceTarget); 
+        // --- END 15-MINUTE SPECIAL EVENT ---
+
+    } else {
+        // If the time is past the 15-minute special event, start normally (muted play)
+        bgMusic.muted = true;
+        bgMusic.play().catch(e=>{
+             playMusicBtn.style.display = 'inline-block';
+        });
+    }
+
+    clearInterval(timerInterval); // Stop the countdown
 }
-renderEyes();
 
-/* ===============
-   Update hero if user enters a photo URL
-   =============== */
-recPhoto.addEventListener('input',()=>{
-  const v = recPhoto.value.trim();
-  displayPhoto.src = v || "https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/Rimjhim.png?raw=true";
-});
+
+function updateCountdown() {
+    const now = new Date().getTime();
+    let distance = targetDate.getTime() - now;
+
+    // Check if the target date has passed
+    if (distance < 0) {
+        handleBirthdayStart();
+        return;
+    }
+
+    // Calculation (Days, Hours, Minutes, Seconds)
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    // Display the result (Bengali text)
+    countdownDisplay.innerHTML = `${days} দিন : ${hours} ঘন্টা : ${minutes} মিনিট : ${seconds} সেকেন্ড`;
+}
+
+// Run the function immediately and then every second
+updateCountdown();
+const timerInterval = setInterval(updateCountdown, 1000);
+
 
 /* ===============
    Send wish (save to Firestore)
@@ -278,7 +337,7 @@ sendBtn.addEventListener('click', async ()=>{
   const r = recName.value.trim() || "Rimjhim";
   const m = recMsg.value.trim();
   if(!m){ alert("কিছু একটা মেসেজ লিখো তো!"); return; }
-  const p = recPhoto.value.trim();
+  const p = ""; // Photo URL is removed
   const s = senderName.value.trim() || "Anonymous";
   const ph = phone.value.trim();
 
@@ -288,7 +347,7 @@ sendBtn.addEventListener('click', async ()=>{
     await db.collection('messages').add({
       recipient: r,
       text: m,
-      photoURL: p || "",
+      photoURL: p, // Photo URL will be empty
       sender: s,
       phone: ph || "",
       time: firebase.firestore.FieldValue.serverTimestamp()
@@ -297,10 +356,9 @@ sendBtn.addEventListener('click', async ()=>{
     setTimeout(()=>{ sendBtn.disabled=false; sendBtn.innerText="Send Sweet Wish! 💖" },1200);
 
     // reset optional fields
-    recPhoto.value = "";
     senderName.value = "";
     phone.value = "";
-    displayPhoto.src = "https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/Rimjhim.png?raw=true";
+    // Note: displayPhoto is not reset as it's not being changed by user input anymore
   }catch(err){
     alert("Error: " + err.message);
     sendBtn.disabled=false;
@@ -315,7 +373,7 @@ db.collection('messages').orderBy('time','desc').onSnapshot(snap=>{
   wishesGrid.innerHTML = '';
   snap.forEach(doc=>{
     const d = doc.data();
-    const when = d.time ? new Date(d.time.seconds*1000).toLocaleString() : '—';
+    const when = d.time ? new Date(d.time.seconds*1000).toLocaleString('bn-BD') : '—';
     const card = document.createElement('div'); card.className='wish-card';
     card.innerHTML = `
       <div style="display:flex;justify-content:space-between;align-items:center">
@@ -324,7 +382,7 @@ db.collection('messages').orderBy('time','desc').onSnapshot(snap=>{
       </div>
       <div class="wish-meta">${escapeHtml(d.recipient||'Rimjhim')}</div>
       <div style="white-space:pre-wrap">${escapeHtml(d.text||'')}</div>
-      ${d.photoURL ? `<img class="wish-photo" src="${escapeHtml(d.photoURL)}" alt="wish photo">` : ''}
+      ${d.photoURL && d.photoURL.length > 5 ? `<img class="wish-photo" src="${escapeHtml(d.photoURL)}" alt="wish photo">` : ''}
       ${d.phone ? `<div style="margin-top:8px;font-size:13px;color:gray">Phone: ${escapeHtml(d.phone)}</div>` : ''}
     `;
     wishesGrid.appendChild(card);
@@ -342,7 +400,7 @@ function escapeHtml(s){
 }
 
 /* ===============
-   Confetti (canvas) - light
+   Confetti (canvas) - light & big blast logic
    =============== */
 const conf = document.getElementById('confetti');
 const ctx = conf.getContext('2d');
@@ -350,10 +408,17 @@ function resizeCanvas(){ conf.width = innerWidth; conf.height = innerHeight; }
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 let confetti = [];
-for(let i=0;i<120;i++){
-  confetti.push({x:Math.random()*conf.width,y:Math.random()*conf.height,
-    s:Math.random()*6+4, r:Math.random()*360, v:Math.random()*1.5+0.5, c:`hsl(${Math.random()*360},80%,60%)`});
+
+// Initial light confetti
+function initializeLightConfetti(){
+  confetti.length = 0;
+  for(let i=0;i<120;i++){
+    confetti.push({x:Math.random()*conf.width,y:Math.random()*conf.height,
+      s:Math.random()*6+4, r:Math.random()*360, v:Math.random()*1.5+0.5, c:`hsl(${Math.random()*360},80%,60%)`});
+  }
 }
+initializeLightConfetti();
+
 function drawConfetti(){
   ctx.clearRect(0,0,conf.width,conf.height);
   confetti.forEach(p=>{
@@ -365,11 +430,34 @@ function drawConfetti(){
     ctx.restore();
     p.y += p.v;
     p.r += 2;
-    if(p.y > conf.height + 40){ p.y = -20; p.x = Math.random()*conf.width; }
+    if(p.y > conf.height + 40){ 
+        if(isBigBlastActive){
+            // During blast, restart from top rapidly
+            p.y = -20; p.x = Math.random()*conf.width;
+        } else {
+            // Normal flow, restart from random Y below visible area
+            p.y = Math.random() * conf.height * -1; p.x = Math.random()*conf.width; 
+        }
+    }
   });
   requestAnimationFrame(drawConfetti);
 }
 drawConfetti();
+
+// Big blast function called on timer end
+function triggerBigConfetti() {
+    confetti.length = 0; // Clear existing confetti
+    // Spawn 500 pieces starting from the top
+    for(let i=0;i<500;i++){ 
+        confetti.push({x:Math.random()*conf.width,
+                       y:Math.random()*conf.height * -1, // Start off-screen top
+                       s:Math.random()*8+6, 
+                       r:Math.random()*360, 
+                       v:Math.random()*3+1.5, // Faster drop
+                       c:`hsl(${Math.random()*360},80%,60%)`});
+    }
+}
+
 
 /* ===============
    Floating hearts generator
@@ -384,17 +472,17 @@ function spawnHeart(){
   h.style.top = (90 + Math.random()*10) + '%';
   h.style.opacity = (Math.random()*0.6 + 0.4);
   heartsContainer.appendChild(h);
-  const duration = 5000 + Math.random()*5000;
+  const duration = (isBigBlastActive ? 3000 : 5000) + Math.random()*5000;
   h.animate([
     {transform: `translateY(0) scale(1)`, opacity:h.style.opacity},
     {transform: `translateY(-90vh) scale(1.2)`, opacity:0}
   ], {duration:duration, easing:'linear'});
   setTimeout(()=>{ h.remove(); }, duration+100);
 }
-setInterval(spawnHeart, 800);
+let heartInterval = setInterval(spawnHeart, 800); // Initial slower hearts
 
 /* ===============
-   Music controls (autoplay muted; user can unmute)
+   Music controls
    =============== */
 const bgMusic = document.getElementById('bgMusic');
 const musicControl = document.getElementById('musicControl');
@@ -402,30 +490,50 @@ const toggleMute = document.getElementById('toggleMute');
 const playMusicBtn = document.getElementById('playMusicBtn');
 
 // show control if audio available
-bgMusic.addEventListener('canplay', ()=>{ musicControl.style.display='flex'; });
+bgMusic.addEventListener('canplay', ()=>{ 
+    if(birthdayContent.style.display !== 'none'){
+        musicControl.style.display='flex'; 
+    }
+});
 
-// try to autoplay muted (most browsers allow muted autoplay)
+// Initial play attempt (muted for browser compatibility)
 bgMusic.volume = 0.6;
 bgMusic.muted = true;
 bgMusic.play().catch(e=>{
   // autoplay blocked — show play button for user
   playMusicBtn.style.display = 'inline-block';
 });
+
 playMusicBtn.addEventListener('click', ()=>{
-  bgMusic.muted = false; bgMusic.play(); musicControl.style.display='flex';
+  bgMusic.muted = false; 
+  bgMusic.play(); 
+  musicControl.style.display='flex';
+  playMusicBtn.style.display='none'; // Hide the big play button
+  toggleMute.innerText = '🔊'; // Unmuted
 });
 
 // toggle mute/pause
 toggleMute.addEventListener('click', ()=>{
-  if(bgMusic.paused){ bgMusic.play(); toggleMute.innerText='🔈'; bgMusic.muted=false; }
-  else if(bgMusic.muted){ bgMusic.muted=false; toggleMute.innerText='🔊'; }
-  else{ bgMusic.muted=true; toggleMute.innerText='🔈'; }
+  if(bgMusic.paused){ 
+    bgMusic.play(); 
+    toggleMute.innerText= bgMusic.muted ? '🔈' : '🔊'; 
+  }
+  else if(bgMusic.muted){ 
+    bgMusic.muted=false; 
+    toggleMute.innerText='🔊'; 
+  }
+  else{ 
+    bgMusic.muted=true; 
+    toggleMute.innerText='🔈'; 
+  }
 });
 
-/* ===============
-   small UX polish: reveal music control if user interacts (for autoplay safety)
-   =============== */
-window.addEventListener('click', ()=>{ if(bgMusic.paused) { /* no-op */ } musicControl.style.display='flex'; }, {once:true});
+// small UX polish: reveal music control if user interacts
+window.addEventListener('click', ()=>{ 
+    if(birthdayContent.style.display !== 'none'){
+        musicControl.style.display='flex'; 
+    }
+}, {once:true});
 
 </script>
 </body>
