@@ -234,11 +234,10 @@ const music=document.getElementById("bgMusic");
 music.volume=0.6;
 
 function autoPlay(){
-  music.play().then(()=>{
-    document.removeEventListener("click",autoPlay);
-    document.removeEventListener("touchstart",autoPlay);
-    document.removeEventListener("scroll",autoPlay);
-  }).catch(()=>{});
+  music.play().catch(()=>{});
+  document.removeEventListener("click",autoPlay);
+  document.removeEventListener("touchstart",autoPlay);
+  document.removeEventListener("scroll",autoPlay);
 }
 document.addEventListener("click",autoPlay);
 document.addEventListener("touchstart",autoPlay);
@@ -249,14 +248,11 @@ const cd=document.getElementById("countdownDisplay");
 const url=new URL(window.location.href);
 const test=url.searchParams.get("mode")==="test";
 
-// Target: 16 Dec
 let now=new Date();
 let y=now.getFullYear();
 let target=new Date(`${y}-12-16T00:00:00`);
 
-if(test){
-  target=new Date(Date.now()+10000);
-}
+if(test){ target=new Date(Date.now()+10000); }
 
 let timerInterval=setInterval(updateCountdown,1000);
 updateCountdown();
@@ -279,20 +275,24 @@ function updateCountdown(){
 }
 function pad(n){return String(n).padStart(2,'0')}
 
-/* ---------- BIRTHDAY REVEAL ---------- */
+/* ---------- REVEAL ---------- */
 function revealBirthday(){
-  // Hide countdown, show hero + content
   document.getElementById("countCard").style.display="none";
   document.getElementById("heroBox").style.display="block";
   document.getElementById("surpriseContent").style.display="block";
 
-  // Confetti + hearts blast
   bigConfetti();
-  heartInterval=setInterval(spawnHeart,400);
+  heartInterval=setInterval(spawnHeart,350);
 
-  // Unmute music if needed
   music.muted=false;
   music.play().catch(()=>{});
+
+  /* 🔥 Stop animation after 8 seconds */
+  setTimeout(()=>{
+    clearInterval(heartInterval);
+    confetti=[];
+    autoScrollDir=0;
+  },8000);
 }
 
 /* ---------- WISH FORM ---------- */
@@ -340,7 +340,7 @@ window.onresize=resize;resize();
 let confetti=[];
 function bigConfetti(){
   confetti=[];
-  for(let i=0;i<600;i++){
+  for(let i=0;i<550;i++){
     confetti.push({
       x:Math.random()*conf.width,
       y:Math.random()*-conf.height,
@@ -355,15 +355,13 @@ function bigConfetti(){
 function draw(){
   ctx.clearRect(0,0,conf.width,conf.height);
   confetti.forEach(p=>{
-    ctx.save();
-    ctx.translate(p.x,p.y);
-    ctx.rotate(p.r*Math.PI/180);
-    ctx.fillStyle=p.c;
-    ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*0.6);
+    ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r*Math.PI/180);
+    ctx.fillStyle=p.c;ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*0.6);
     ctx.restore();
+
     p.y+=p.v; p.r+=2;
     if(p.y>conf.height+40){
-      p.y=-20; p.x=Math.random()*conf.width;
+      p.y=-20;p.x=Math.random()*conf.width;
     }
   });
   requestAnimationFrame(draw);
@@ -375,28 +373,33 @@ const hearts=document.getElementById("hearts");
 function spawnHeart(){
   const h=document.createElement("div");
   h.className="heart";
-  const size=Math.random()*18+12;
+  const size=Math.random()*20+12;
   h.style.width=h.style.height=size+"px";
   h.style.left=Math.random()*100+"%";
   h.style.top="95%";
   hearts.appendChild(h);
+
   h.animate([
     {transform:"translateY(0) scale(1)",opacity:1},
     {transform:"translateY(-90vh) scale(1.3)",opacity:0}
-  ],{duration:6000,easing:"linear"});
-  setTimeout(()=>h.remove(),6000);
+  ],{duration:5500,easing:"linear"});
+
+  setTimeout(()=>h.remove(),5600);
 }
 let heartInterval;
 
 /* ---------- AUTO SCROLL ALBUM ---------- */
 const albumScroll=document.getElementById("albumScroll");
 let autoScrollPos=0,autoScrollDir=1;
+
 setInterval(()=>{
+  if(autoScrollDir===0) return;
   autoScrollPos+=autoScrollDir*1.3;
-  if(autoScrollPos>albumScroll.scrollWidth-albumScroll.clientWidth-10){autoScrollDir=-1}
-  if(autoScrollPos<0){autoScrollDir=1}
+  if(autoScrollPos>albumScroll.scrollWidth-albumScroll.clientWidth-10) autoScrollDir=-1;
+  if(autoScrollPos<0) autoScrollDir=1;
   albumScroll.scrollTo({left:autoScrollPos,behavior:"smooth"});
 },150);
 </script>
+
 </body>
 </html>
