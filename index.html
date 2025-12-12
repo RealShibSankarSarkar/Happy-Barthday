@@ -15,7 +15,9 @@
       --accent2:#b68bff;
       --text:#2a2a2a;
     }
+
     *{margin:0;padding:0;box-sizing:border-box;}
+
     body{
       font-family:'Quicksand',sans-serif;
       background:var(--bg);
@@ -41,6 +43,7 @@
       font-family:'Pacifico',cursive;
       font-size:3rem;
       text-align:center;
+      margin-bottom:18px;
       color:var(--accent);
       animation:glow 3s infinite;
     }
@@ -51,8 +54,7 @@
       100%{text-shadow:0 0 4px rgba(255,100,150,0.4);}
     }
 
-    /* --------- Aesthetic Album ----------- */
-
+    /* ---------- Album ---------- */
     .album-title{
       text-align:center;
       font-size:1.4rem;
@@ -81,7 +83,6 @@
       box-shadow:0 10px 25px rgba(0,0,0,0.12);
       transform:rotate(-3deg);
       transition:0.35s ease;
-      position:relative;
     }
 
     .polaroid:hover{
@@ -103,8 +104,7 @@
       font-size:0.85rem;
     }
 
-    /* -------- Wishes Grid -------- */
-
+    /* ----- Wish Grid ----- */
     .wishes-grid{
       display:grid;
       grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
@@ -145,40 +145,76 @@
       font-weight:700;
       cursor:pointer;
       font-size:1rem;
-      box-shadow:0 10px 24px rgba(255,112,166,0.12);
-      transition:transform .18s;
+      transition:0.2s;
     }
-    .send-btn:active{transform:translateY(2px)}
 
+    .send-btn:active{transform:scale(0.97);}
+
+    /* ---- Start Screen ---- */
+    #startScreen{
+      position:fixed;
+      left:0;top:0;width:100%;height:100%;
+      background:rgba(0,0,0,0.82);
+      z-index:999;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      flex-direction:column;
+      color:white;
+      text-align:center;
+    }
+
+    #startBtn{
+      padding:14px 32px;
+      border:none;
+      border-radius:14px;
+      background:#ff7ca8;
+      font-size:1.2rem;
+      font-weight:700;
+      color:white;
+      box-shadow:0 10px 25px rgba(255,100,150,0.3);
+      cursor:pointer;
+    }
   </style>
 </head>
 <body>
+
+<!-- Start Screen -->
+<div id="startScreen">
+  <h2 style="margin-bottom:25px;">Tap to Start the Surprise 🎉</h2>
+  <button id="startBtn">Start</button>
+</div>
+
+<!-- Background Music -->
+<audio id="bgMusic" loop>
+  <source src="https://files.catbox.moe/lnkg6v.mp3" type="audio/mpeg">
+</audio>
 
 <div class="wrap">
 
   <h1 class="title">Happy Birthday, Rimjhim 💖</h1>
 
-  <!-- Aesthetic Photo Album -->
+  <!-- Countdown -->
+  <div class="card" style="text-align:center;">
+    <h2 style="color:var(--accent)">⏳ Birthday Starts In</h2>
+    <div id="countdown" style="font-size:1.8rem;font-weight:700;margin-top:10px;">
+      Loading...
+    </div>
+  </div>
+
+  <!-- Album -->
   <div class="card">
     <div class="album-title">✨ Aesthetic Memory Album ✨</div>
 
     <div class="album-scroll">
 
-      <div class="polaroid">
-        <img src="https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/cuttee.jpeg?raw=true">
-      </div>
+      <div class="polaroid"><img src="https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/cuttee.jpeg?raw=true"></div>
 
-      <div class="polaroid">
-        <img src="https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/Rimjhim.png?raw=true">
-      </div>
+      <div class="polaroid"><img src="https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/Rimjhim.png?raw=true"></div>
 
-      <div class="polaroid">
-        <img src="https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/album.jpg?raw=true">
-      </div>
+      <div class="polaroid"><img src="https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/album.jpg?raw=true"></div>
 
-      <div class="polaroid">
-        <img src="https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/eyes21.jpeg?raw=true">
-      </div>
+      <div class="polaroid"><img src="https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/eyes21.jpeg?raw=true"></div>
 
     </div>
 
@@ -225,11 +261,44 @@ const firebaseConfig = {
   messagingSenderId: "241187517416",
   appId: "1:241187517416:web:f7547d41aa147d1e52ea5d"
 };
-
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-/* SEND WISH */
+/* ⏳ Countdown */
+function startCountdown(){
+  const target = new Date();
+  target.setHours(24,0,0,0);
+
+  setInterval(()=>{
+    const now = new Date();
+    let diff = target - now;
+
+    if(diff <= 0){
+      countdown.innerHTML = "🎉 It's Her Special Day!";
+      return;
+    }
+
+    const h = Math.floor(diff/(1000*60*60));
+    const m = Math.floor((diff%(1000*60*60))/(1000*60));
+    const s = Math.floor((diff%(1000*60))/1000);
+
+    countdown.innerHTML = `${h} ঘন্টা : ${m} মিনিট : ${s} সেকেন্ড`;
+  },1000);
+}
+
+/* 🎵 Start Music + Countdown */
+const startScreen = document.getElementById("startScreen");
+const startBtn = document.getElementById("startBtn");
+const bgMusic = document.getElementById("bgMusic");
+
+startBtn.onclick = () => {
+  startScreen.style.display = "none";
+  bgMusic.volume = 0.7;
+  bgMusic.play().catch(()=>{});
+  startCountdown();
+};
+
+/* 💌 Send Wish */
 sendBtn.addEventListener("click", async ()=>{
   const m = recMsg.value.trim();
   if(!m){ alert("Message লিখো!"); return; }
@@ -247,13 +316,12 @@ sendBtn.addEventListener("click", async ()=>{
   phone.value = "";
 });
 
-/* REALTIME WISH FEED */
+/* 📌 Load Wishes */
 db.collection("messages").orderBy("time","desc").onSnapshot(snap=>{
   wishesGrid.innerHTML = "";
   snap.forEach(doc=>{
     const d = doc.data();
-    const t = d.time ? d.time.toDate().toLocaleString("bn-BD") : "";
-
+    let t = d.time ? d.time.toDate().toLocaleString("bn-BD") : "";
     wishesGrid.innerHTML += `
       <div class="wish-card">
         <div class="wish-meta">${t}</div>
