@@ -57,6 +57,26 @@
       100%{transform:scale(1)}
     }
 
+    /* photo album grid (NEW) */
+    .photo-album-grid{
+        display:grid;
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); 
+        gap: 8px;
+        margin-top: 12px;
+    }
+    .album-img{
+        width:100%;
+        aspect-ratio: 1 / 1; 
+        object-fit: cover;
+        border-radius: 8px;
+        border: 2px solid rgba(255, 112, 166, 0.3); 
+        transition: transform .2s ease;
+    }
+    .album-img:hover{
+        transform: scale(1.05);
+    }
+    /* end photo album grid */
+
     /* shayari box */
     .shayari{background:linear-gradient(180deg, #fff, #fff);padding:16px;border-radius:12px;margin-bottom:12px;line-height:1.7;border-left:6px solid var(--accent);box-shadow:0 8px 20px rgba(0,0,0,0.04)}
 
@@ -149,10 +169,21 @@
     <div class="top-row">
       <div class="left card">
         <div class="hero-wrap">
-          <!-- Main Hero Image (only one image) -->
+          <!-- Main Hero Image (PRIORITIZED) -->
           <img id="displayPhoto" class="hero" alt="Rimjhim" 
-              src="https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/Rimjhim.png?raw=true">
+              src="https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/cuttee.jpeg?raw=true">
         </div>
+        
+        <!-- Photo Album Section (NEW) -->
+        <h4 style="margin-top:18px;color:var(--accent);text-align:center">Memories 📸</h4>
+        <div class="photo-album-grid">
+            <!-- Album images added here -->
+            <img class="album-img" alt="Album photo 1" src="https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/Rimjhim.png?raw=true">
+            <img class="album-img" alt="Album photo 2" src="https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/album.jpg?raw=true">
+            <img class="album-img" alt="Album photo 3" src="https://github.com/RealShibSankarSarkar/Happy-Barthday/blob/main/eyes21.jpeg?raw=true">
+        </div>
+        <!-- End Photo Album Section -->
+
 
         <!-- small shayari -->
         <div class="shayari" style="margin-top:18px">
